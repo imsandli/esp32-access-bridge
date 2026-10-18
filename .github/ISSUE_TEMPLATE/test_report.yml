@@ -1,0 +1,25 @@
+name: Test report
+description: Report results of tests from docs/testing.md on real hardware
+labels: [test-report]
+body:
+  - type: input
+    id: hw
+    attributes:
+      label: Hardware revision
+      placeholder: HW-1.0 Rev A
+    validations:
+      required: true
+  - type: input
+    id: fw
+    attributes:
+      label: Firmware version
+      placeholder: FW-1.0.0
+    validations:
+      required: true
+  - type: textarea
+    id: results
+    attributes:
+      label: Test IDs and results (PASS/FAIL, measurements)
+      placeholder: "T-EL-2 PASS 5.02 V, 6 mA\nT-FW-6 PASS"
+    validations:
+      required: true
