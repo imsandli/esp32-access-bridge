@@ -1,0 +1,249 @@
+blueprint:
+  name: AccessBridge - open Nuki on authorized UA-Hub pulse
+  description: >
+    Unlatches (or unlocks) a Nuki Smart Lock when the AccessBridge reports a NEW
+    relay closure from the UniFi Access UA-Hub.
+
+
+    The trigger is the `relay_pulses` counter, NOT the contact state. The
+    action only runs if ALL gates pass:
+
+    1. the counter rose by exactly 1 from a known numeric value (ignores HA
+       restarts, restored states, `unavailable`/`unknown`, device reboots
+       (counter resets to 0) and gaps of more than one pulse);
+
+    2. the relay contact is closed now or changed within the freshness window
+       (blocks late deliveries after a Zigbee outage);
+
+    3. the cooldown since the last run has passed;
+
+    4. the optional enable switch is on;
+
+    5. optionally: the door is not already open.
+
+
+    Every decision is written to the logbook, and failed unlatch attempts are
+    logged as errors. See docs/security.md for the trust boundaries.
+  domain: automation
+  source_url: https://github.com/imsandli/esp32-access-bridge/blob/main/integrations/home-assistant/automations/nuki-unlock.yaml
+  input:
+    pulse_counter:
+      name: Relay pulse counter
+      description: The AccessBridge `relay_pulses` sensor (from Zigbee2MQTT).
+      selector:
+        entity:
+          filter:
+            - domain: sensor
+    relay_contact:
+      name: Relay contact
+      description: The AccessBridge `relay_contact` binary sensor.
+      selector:
+        entity:
+          filter:
+            - domain: binary_sensor
+    lock_entity:
+      name: Nuki lock
+      selector:
+        entity:
+          filter:
+            - domain: lock
+    lock_action:
+      name: Lock action
+      description: >
+        `lock.open` = unlatch (Nuki "open", pulls the latch);
+        `lock.unlock` = unlock only.
+      default: lock.open
+      selector:
+        select:
+          options:
+            - label: Unlatch (lock.open)
+              value: lock.open
+            - label: Unlock only (lock.unlock)
+              value: lock.unlock
+    enable_entity:
+      name: Enable switch (optional)
+      description: An input_boolean that must be ON for unlatching. Leave empty to always allow.
+      default: ""
+      selector:
+        entity:
+          filter:
+            - domain: input_boolean
+    door_entity:
+      name: Door closed sensor (optional)
+      description: >
+        AccessBridge `door_closed` (or any binary sensor that is ON when the door
+        is closed). If set, nothing happens while the door is already open.
+      default: ""
+      selector:
+        entity:
+          filter:
+            - domain: binary_sensor
+    cooldown:
+      name: Cooldown
+      description: Minimum time between two unlatch commands.
+      default: 10
+      selector:
+        number:
+          min: 2
+          max: 120
+          unit_of_measurement: s
+    freshness:
+      name: Freshness window
+      description: >
+        The relay contact must be closed, or have changed state, within this
+        many seconds of the pulse. UA-Hub relay pulses last several seconds.
+      default: 15
+      selector:
+        number:
+          min: 3
+          max: 60
+          unit_of_measurement: s
+    verify_delay:
+      name: Verification delay
+      description: Time to wait before checking that the lock reacted.
+      default: 15
+      selector:
+        number:
+          min: 5
+          max: 60
+          unit_of_measurement: s
+
+mode: single
+max_exceeded: silent
+
+triggers:
+  - trigger: state
+    entity_id: !input pulse_counter
+
+variables:
+  counter_entity: !input pulse_counter
+  contact_entity: !input relay_contact
+  lock: !input lock_entity
+  lock_action: !input lock_action
+  enable_entity: !input enable_entity
+  door_entity: !input door_entity
+  cooldown_s: !input cooldown
+  freshness_s: !input freshness
+  verify_s: !input verify_delay
+  old: "{{ trigger.from_state.state if trigger.from_state is not none else 'none' }}"
+  new: "{{ trigger.to_state.state if trigger.to_state is not none else 'none' }}"
+  is_new_pulse: >
+    {{ old | is_number and new | is_number and (new | int(-1)) == (old | int(-1)) + 1 }}
+  contact_fresh: >
+    {{ is_state(contact_entity, 'on') or
+       (states[contact_entity] is not none and
+        (now() - states[contact_entity].last_changed).total_seconds() < (freshness_s | float)) }}
+  cooldown_ok: >
+    {{ this.attributes.last_triggered is none or
+       (now() - this.attributes.last_triggered).total_seconds() > (cooldown_s | float) }}
+  enabled: "{{ enable_entity == '' or is_state(enable_entity, 'on') }}"
+  door_ok: "{{ door_entity == '' or not is_state(door_entity, 'off') }}"
+
+conditions:
+  # A counter decrease is a device reboot; it is expected and not an error.
+  - condition: template
+    value_template: "{{ old | is_number and new | is_number }}"
+  - condition: template
+    value_template: "{{ new | int(-1) != old | int(-1) }}"
+
+actions:
+  - choose:
+      - conditions:
+          - condition: template
+            value_template: "{{ not is_new_pulse }}"
+        sequence:
+          - action: logbook.log
+            data:
+              name: AccessBridge
+              message: >
+                ignored counter change {{ old }} -> {{ new }}
+                ({{ 'device reboot' if (new | int(0)) < (old | int(0)) else 'gap of more than one pulse' }})
+              entity_id: "{{ counter_entity }}"
+          - stop: not a single new pulse
+      - conditions:
+          - condition: template
+            value_template: "{{ not contact_fresh }}"
+        sequence:
+          - action: system_log.write
+            data:
+              level: warning
+              logger: accessbridge
+              message: >
+                pulse {{ new }} ignored: relay contact not closed within {{ freshness_s }} s
+                (late delivery after link loss?)
+          - stop: stale pulse
+      - conditions:
+          - condition: template
+            value_template: "{{ not cooldown_ok }}"
+        sequence:
+          - action: logbook.log
+            data:
+              name: AccessBridge
+              message: "pulse {{ new }} ignored: within {{ cooldown_s }} s cooldown"
+              entity_id: "{{ counter_entity }}"
+          - stop: cooldown
+      - conditions:
+          - condition: template
+            value_template: "{{ not enabled }}"
+        sequence:
+          - action: logbook.log
+            data:
+              name: AccessBridge
+              message: "pulse {{ new }} ignored: unlatching disabled ({{ enable_entity }} is off)"
+              entity_id: "{{ counter_entity }}"
+          - stop: disabled
+      - conditions:
+          - condition: template
+            value_template: "{{ not door_ok }}"
+        sequence:
+          - action: logbook.log
+            data:
+              name: AccessBridge
+              message: "pulse {{ new }} ignored: door already open"
+              entity_id: "{{ counter_entity }}"
+          - stop: door open
+
+  - action: logbook.log
+    data:
+      name: AccessBridge
+      message: "authorized UA-Hub pulse {{ new }}: calling {{ lock_action }} on {{ lock }}"
+      entity_id: "{{ lock }}"
+  - variables:
+      call_started: "{{ now().isoformat() }}"
+  - action: "{{ lock_action }}"
+    target:
+      entity_id: "{{ lock }}"
+    continue_on_error: true
+  # Success = the lock reports a state change to an opening/unlocked state
+  # within the verification delay (works even if it was unlocked before).
+  - wait_for_trigger:
+      - trigger: state
+        entity_id: !input lock_entity
+        to:
+          - opening
+          - open
+          - unlocking
+          - unlocked
+    timeout:
+      seconds: "{{ verify_s | int }}"
+    continue_on_timeout: true
+  - if:
+      - condition: template
+        value_template: >
+          {{ wait.trigger is not none or
+             (states[lock] is not none and states[lock].last_changed > as_datetime(call_started)
+              and states(lock) in ['opening', 'open', 'unlocking', 'unlocked']) }}
+    then:
+      - action: logbook.log
+        data:
+          name: AccessBridge
+          message: "{{ lock_action }} confirmed, {{ lock }} is {{ states(lock) }}"
+          entity_id: "{{ lock }}"
+    else:
+      - action: system_log.write
+        data:
+          level: error
+          logger: accessbridge
+          message: >
+            {{ lock_action }} for pulse {{ new }} FAILED or was not confirmed within
+            {{ verify_s }} s: {{ lock }} is '{{ states(lock) }}'

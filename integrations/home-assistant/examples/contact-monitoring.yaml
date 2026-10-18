@@ -1,0 +1,46 @@
+# Home Assistant package: AccessBridge health monitoring.
+#
+# Usage: copy to <config>/packages/accessbridge.yaml, enable packages in
+# configuration.yaml (`homeassistant: packages: !include_dir_named packages`)
+# and replace the entity IDs in `substitute me` comments with your own
+# Zigbee2MQTT entity IDs. Entity IDs are examples, not requirements.
+#
+# Provides:
+#   - binary_sensor.accessbridge_link_problem: on when the AccessBridge has
+#     been unavailable for more than 5 minutes
+#   - an automation that writes a warning to the system log when that happens
+#   - an input_boolean used as the "enable unlatching" switch of the
+#     nuki-unlock blueprint (turn it off while on holiday, for example)
+
+input_boolean:
+  accessbridge_unlatch_enabled:
+    name: AccessBridge unlatch enabled
+    icon: mdi:door-open
+
+template:
+  - binary_sensor:
+      - name: AccessBridge link problem
+        unique_id: accessbridge_link_problem
+        device_class: problem
+        delay_on:
+          minutes: 5
+        # substitute me: your relay_contact entity
+        state: >
+          {{ states('binary_sensor.accessbridge_relay_contact') in ['unavailable', 'unknown'] }}
+
+automation:
+  - id: accessbridge_link_problem_log
+    alias: AccessBridge - link problem
+    triggers:
+      - trigger: state
+        entity_id: binary_sensor.accessbridge_link_problem
+        to: "on"
+    actions:
+      - action: system_log.write
+        data:
+          level: warning
+          logger: accessbridge
+          message: >
+            AccessBridge has been unavailable for 5 minutes. UA-Hub access will
+            NOT open the Nuki until the Zigbee link is restored; use the key or
+            the Nuki app.

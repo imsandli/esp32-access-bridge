@@ -28,6 +28,7 @@ binary_sensor:
   - platform: gpio
     id: relay_contact
     name: relay_contact
+    endpoint: 1
     report: force
     pin:
       number: ${pin_in_relay}
@@ -68,6 +69,7 @@ sensor:
   - platform: template
     id: relay_pulses
     name: relay_pulses
+    endpoint: 1
     report: force
     accuracy_decimals: 0
     update_interval: never

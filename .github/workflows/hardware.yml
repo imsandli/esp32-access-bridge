@@ -1,0 +1,55 @@
+name: hardware
+
+on:
+  push:
+    branches: ["**"]
+    paths: ["hardware/**", "scripts/**", ".github/workflows/hardware.yml"]
+  pull_request:
+    paths: ["hardware/**", "scripts/**", ".github/workflows/hardware.yml"]
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  kicad:
+    name: ERC, DRC, fabrication data
+    runs-on: ubuntu-24.04
+    container:
+      # Pinned KiCad version; must match the version used to save the design.
+      image: kicad/kicad:9.0.9
+      options: --user root
+    env:
+      HOME: /root
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: ERC and DRC (fails on any error or warning)
+        run: scripts/validate-hardware.sh
+
+      - name: Keep committed fabrication data for comparison
+        run: |
+          mkdir -p build
+          cp -r hardware/manufacturing build/committed
+
+      - name: BOM and pick-and-place
+        run: scripts/export-bom.sh
+
+      - name: Gerbers, drill, schematic PDF, drawings
+        run: scripts/export-gerbers.sh --no-renders
+
+      - name: Committed fabrication data matches the KiCad sources
+        run: python3 scripts/tools/check_generated.py build/committed hardware/manufacturing
+
+      - name: Upload fabrication data
+        uses: actions/upload-artifact@v4
+        with:
+          name: accessbridge-c6-fabrication
+          path: |
+            hardware/manufacturing/
+            hardware/docs/schematic.pdf
+            hardware/docs/assembly-top.pdf
+            hardware/enclosure/drawings/
+            build/reports/
+          if-no-files-found: error

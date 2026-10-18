@@ -47,6 +47,7 @@ sensor:
   - platform: template
     id: fw_version_sensor
     name: fw_version
+    endpoint: 4
     accuracy_decimals: 0
     update_interval: never
     lambda: return ${fw_version_code};

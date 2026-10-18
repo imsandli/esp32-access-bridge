@@ -1,0 +1,68 @@
+name: firmware
+
+on:
+  push:
+    branches: ["**"]
+    paths: ["firmware/**", ".github/workflows/firmware.yml"]
+  pull_request:
+    paths: ["firmware/**", ".github/workflows/firmware.yml"]
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  contents: read
+
+env:
+  ESPHOME_VERSION: "2026.9.1"
+
+jobs:
+  esphome:
+    name: ESPHome validate + compile
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install ESPHome ${{ env.ESPHOME_VERSION }}
+        run: pip install "esphome==${ESPHOME_VERSION}"
+
+      - name: Cache toolchains
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.platformio
+            ~/.espressif
+            firmware/esphome/.esphome/platformio
+          key: esphome-${{ env.ESPHOME_VERSION }}-${{ hashFiles('firmware/esphome/**/*.yaml') }}
+          restore-keys: esphome-${{ env.ESPHOME_VERSION }}-
+
+      - name: No secrets in the repository
+        run: test ! -e firmware/esphome/secrets.yaml
+
+      - name: Validate configuration
+        working-directory: firmware/esphome
+        run: esphome config accessbridge.yaml > /dev/null
+
+      - name: Compile
+        working-directory: firmware/esphome
+        run: esphome compile accessbridge.yaml
+
+      - name: Collect binaries
+        run: |
+          FW=$(grep -E '^\s+fw_version:' firmware/esphome/accessbridge.yaml | head -1 | sed -E 's/.*"(.*)".*/\1/')
+          mkdir -p build/firmware
+          find firmware/esphome/.esphome/build -name 'firmware.factory.bin' -exec cp {} "build/firmware/accessbridge-zigbee-FW-${FW}-factory.bin" \;
+          find firmware/esphome/.esphome/build -name 'firmware.ota.bin' -exec cp {} "build/firmware/accessbridge-zigbee-FW-${FW}-app.bin" \;
+          ls -la build/firmware
+          test -n "$(ls build/firmware/*-factory.bin)"
+          (cd build/firmware && sha256sum *.bin > SHA256SUMS)
+
+      - name: Upload binaries
+        uses: actions/upload-artifact@v4
+        with:
+          name: accessbridge-zigbee-firmware
+          path: build/firmware/
+          if-no-files-found: error

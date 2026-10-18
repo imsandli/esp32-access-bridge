@@ -1,0 +1,62 @@
+blueprint:
+  name: AccessBridge - doorbell notification
+  description: >
+    Runs your notification actions when the AccessBridge reports a NEW doorbell
+    press (`doorbell_pulses` rose by exactly 1). Restored states, device reboots
+    and repeated presses within the rate limit are ignored. The doorbell input
+    is informational only: never use it to unlock anything.
+  domain: automation
+  source_url: https://github.com/imsandli/esp32-access-bridge/blob/main/integrations/home-assistant/automations/doorbell-notify.yaml
+  input:
+    pulse_counter:
+      name: Doorbell pulse counter
+      description: The AccessBridge `doorbell_pulses` sensor (from Zigbee2MQTT).
+      selector:
+        entity:
+          filter:
+            - domain: sensor
+    rate_limit:
+      name: Rate limit
+      description: Minimum time between two notifications.
+      default: 20
+      selector:
+        number:
+          min: 0
+          max: 300
+          unit_of_measurement: s
+    notify_actions:
+      name: Notification actions
+      description: >
+        For example `notify.mobile_app_<phone>` with a message, a TTS
+        announcement, or a light flash.
+      selector:
+        action: {}
+
+mode: single
+max_exceeded: silent
+
+triggers:
+  - trigger: state
+    entity_id: !input pulse_counter
+
+variables:
+  rate_limit_s: !input rate_limit
+  old: "{{ trigger.from_state.state if trigger.from_state is not none else 'none' }}"
+  new: "{{ trigger.to_state.state if trigger.to_state is not none else 'none' }}"
+
+conditions:
+  - condition: template
+    value_template: >
+      {{ old | is_number and new | is_number and (new | int(-1)) == (old | int(-1)) + 1 }}
+  - condition: template
+    value_template: >
+      {{ this.attributes.last_triggered is none or
+         (now() - this.attributes.last_triggered).total_seconds() > (rate_limit_s | float) }}
+
+actions:
+  - action: logbook.log
+    data:
+      name: AccessBridge
+      message: "doorbell press {{ new }}"
+  - choose: []
+    default: !input notify_actions

@@ -16,6 +16,7 @@ binary_sensor:
   - platform: gpio
     id: doorbell
     name: doorbell
+    endpoint: 2
     report: force
     pin:
       number: ${pin_in_bell}
@@ -45,6 +46,7 @@ sensor:
   - platform: template
     id: doorbell_pulses
     name: doorbell_pulses
+    endpoint: 2
     report: force
     accuracy_decimals: 0
     update_interval: never
