@@ -211,11 +211,17 @@ def main():
             props.append(("Note", c["note"], True))
         sym = instance(ref, lib_id, x, y, rot, props, c["pins"], dnp=c["dnp"],
                        in_bom=c["part"] not in ("MH", "SJ3"))
+        stacked = {}  # pins at the same position (e.g. USB-C VBUS A9/B9) get one stub
         for p in symbol_pins(sym):
             net = c["pins"].get(p["num"])
             if net is None:
                 raise SystemExit(f"{ref} pin {p['num']} unassigned")
             px, py = xform(x, y, p["x"], p["y"], rot)
+            if (px, py) in stacked:
+                if stacked[(px, py)] != net:
+                    raise SystemExit(f"{ref}: stacked pins at {px},{py} on different nets")
+                continue
+            stacked[(px, py)] = net
             connect(ref, p["num"], net, px, py, outward(p["a"], rot))
         extra = set(c["pins"]) - {p["num"] for p in symbol_pins(sym)}
         if extra:

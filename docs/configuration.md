@@ -12,7 +12,7 @@
 
 | Substitution | Default | Meaning |
 |---|---|---|
-| `pin_*` | see [pinout](../hardware/docs/pinout.md) | GPIO assignment for HW-1.0 Rev A. Change only for a different hardware revision. |
+| `pin_*` | see [pinout](../hardware/docs/pinout.md) | GPIO assignment for HW-1.0/HW-1.1 (identical). Change only for a different hardware revision. |
 | `use_external_antenna` | `"false"` | `"true"` selects the XIAO's U.FL antenna connector (GPIO14 high) |
 
 ## Firmware packages

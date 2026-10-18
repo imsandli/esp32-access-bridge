@@ -1,0 +1,6 @@
+# Pinned environment for the enclosure model and fit check (Python 3.13)
+cadquery==2.8.0
+cadquery-ocp==7.9.3.1.1
+CairoSVG==2.9.1
+trimesh==5.1.1
+pillow

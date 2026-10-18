@@ -23,7 +23,7 @@ If the serial port does not appear, hold **BOOT** on the XIAO while plugging in
 the USB-C cable.
 
 Check the log (`esphome logs accessbridge.yaml`): you should see
-`AccessBridge C6 HW-1.0 Rev A, antenna: ceramic` and the Zigbee start message.
+`AccessBridge C6 HW-1.x, antenna: ceramic` and the Zigbee start message.
 
 ## 2. Check the UA-Hub
 

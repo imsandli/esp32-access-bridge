@@ -1,7 +1,7 @@
 # Releases
 
 Releases are built by [`.github/workflows/release.yml`](../.github/workflows/release.yml)
-when a tag `HW-<hw>_FW-<fw>` is pushed, for example `HW-1.0_FW-1.0.0`. The
+when a tag `HW-<hw>_FW-<fw>` is pushed, for example `HW-1.1_FW-1.0.0`. The
 workflow:
 
 1. checks that the tag matches `HW_VERSION` in `hardware/kicad/accessbridge.kicad_pro`
@@ -18,19 +18,20 @@ Release binaries are **not** committed to the repository.
 
 | Item | Format | Current |
 |---|---|---|
-| Hardware | `HW-MAJOR.MINOR` (electrical/footprint changes bump MINOR, incompatible pinout MAJOR) | HW-1.0 |
-| PCB revision | `Rev A`, `Rev B`, ... (any change to the Gerbers) | Rev A |
+| Hardware | `HW-MAJOR.MINOR` (electrical/footprint changes bump MINOR, incompatible pinout MAJOR) | HW-1.1 |
+| PCB revision | `Rev A`, `Rev B`, ... (any change to the Gerbers) | Rev B |
 | Firmware | `FW-MAJOR.MINOR.PATCH` (semantic) | FW-1.0.0 |
 
 ## Compatibility
 
 | Firmware | Hardware | Status |
 |---|---|---|
-| FW-1.0.0 | HW-1.0 Rev A | statically checked, compiled, software-tested. **Not tested on hardware.** |
+| FW-1.0.0 | HW-1.1 Rev B | statically checked, compiled, software-tested; enclosure fit-checked. **Not tested on hardware.** |
+| FW-1.0.0 | HW-1.0 Rev A | superseded before manufacturing (identical GPIO map; no USB-C power input) |
 
 The authoritative test record is [docs/testing.md](../docs/testing.md).
 
 ## Published releases
 
 None yet. The first release should be tagged only after the electrical tests
-(T-EL-*) pass on a manufactured Rev A board.
+(T-EL-*) pass on a manufactured Rev B board.

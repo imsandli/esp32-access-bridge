@@ -5,16 +5,16 @@
       "Application": "Pcbnew",
       "Version": "9.0.9"
     },
-    "CreationDate": "2026-10-18T10:04:58+00:00"
+    "CreationDate": "2026-10-18T12:53:20+00:00"
   },
   "GeneralSpecs": {
     "ProjectId": {
       "Name": "accessbridge",
       "GUID": "61636365-7373-4627-9269-6467652e6b69",
-      "Revision": "A (HW-1.0)"
+      "Revision": "B (HW-1.1)"
     },
     "Size": {
-      "X": 86.1,
+      "X": 96.1,
       "Y": 56.1
     },
     "LayerNumber": 2,

@@ -5,7 +5,26 @@ The format follows [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
-### Hardware HW-1.0 / Rev A: initial design (not manufactured)
+### Hardware HW-1.1 / Rev B: USB-C power input (not manufactured)
+
+- J6 power-only USB-C (5 V sink, 5.1 kΩ CC, 500 mA PTC, SMAJ5.0A TVS). The whole
+  board, contact inputs included, runs from a USB charger; firmware still goes
+  through the XIAO's own USB-C.
+- New rail `V_LOOP` (diode-OR of +12 V and USB 5 V) for the contact loops;
+  USB 5 V diode-ORed into the XIAO 5V pin.
+- Board widened to 96 x 56 mm; mounting holes H2/H4 moved to x = 92 mm. All
+  Rev A parts kept their positions; Rev A routing kept except around R10/R14/R18.
+- ERC/DRC clean (incl. parity).
+
+### Enclosure (new)
+
+- Parametric 3D-printable case (CadQuery): DIN-rail base and wall-screw base,
+  shared lid, PAIR plunger and cable clamp. M3 heat-set inserts, M16 gland,
+  two USB-C openings.
+- Automated fit check against the KiCad STEP of the PCB (CI).
+
+
+### Hardware HW-1.0 / Rev A: initial design (superseded by Rev B before manufacturing)
 
 - XIAO ESP32C6 carrier, 86 x 56 mm, 2 layers, KiCad 9.0.9.
 - 12 V input from the UA-Hub LINE output: PTC, TVS, reverse-polarity diode,

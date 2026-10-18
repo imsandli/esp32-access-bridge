@@ -3,6 +3,7 @@
 
 Runs inside the KiCad 9 container (needs the pcbnew Python module):
   gen_pcb.py place <netlist.net> <out.kicad_pcb>   footprints, nets, outline, texts
+  gen_pcb.py update <netlist.net> <board>          incremental revision: add/move parts, keep routing
   gen_pcb.py dsn|ses <board> <file>                Specctra export / import (Freerouting)
   gen_pcb.py clean <board>                         remove dangling autorouter stubs
   gen_pcb.py shift <board>                         move board to design.SHEET_ORIGIN, set aux origin
@@ -57,52 +58,62 @@ def add_text(board, text, x, y, size, rot, layer):
     board.Add(t)
 
 
-def place(netfile, out):
+def make_footprint(comp):
+    """Footprint for a netlist component, placed at design.PCB_POS."""
+    ref = str(find(comp, "ref")[1])
+    fpid = str(find(comp, "footprint")[1])
+    fp = load_fp(fpid)
+    fp.SetReference(ref)
+    fp.SetValue(str(find(comp, "value")[1]))
+    fp.SetPath(pcbnew.KIID_PATH("/" + str(find(comp, "tstamps")[1])))
+    x, y, rot = design.PCB_POS[ref]
+    fp.SetPosition(v(x, y))
+    fp.SetOrientationDegrees(rot)
+    props = {str(find(p, "name")[1]): str(find(p, "value")[1]) for p in find_all(comp, "property")
+             if find(p, "value") is not None}
+    for k in ("LCSC", "MPN", "Manufacturer"):
+        if props.get(k):
+            fp.SetField(k, props[k])
+            f = fp.GetFieldByName(k)
+            f.SetVisible(False)
+            f.SetLayer(pcbnew.F_Fab)
+    if design.C[ref]["dnp"]:
+        fp.SetDNP(True)
+        fp.SetExcludedFromPosFiles(True)
+    # reference designators live on the assembly (Fab) layer; silk keeps only
+    # connector/function labels so nothing is printed over pads
+    fp.Reference().SetLayer(pcbnew.F_Fab)
+    return fp
+
+
+def assign_nets(fp, pin_net):
+    """Set pad nets from the netlist; return the pads whose net changed."""
+    changed = []
+    for pad in fp.Pads():
+        ni = pin_net.get((fp.GetReference(), pad.GetNumber()))
+        if ni is not None and pad.GetNetname() != ni.GetNetname():
+            changed.append(pad)
+            pad.SetNet(ni)
+    return changed
+
+
+def read_netlist(board, netfile):
+    """Create missing nets on the board; return (netlist, {(ref, pin): NETINFO})."""
     net = parse(open(netfile).read())
-    board = pcbnew.NewBoard(out)
-    nets = {}
     pin_net = {}
     for n in find_all(find(net, "nets"), "net"):
         name = str(find(n, "name")[1])
-        ni = pcbnew.NETINFO_ITEM(board, name)
-        board.Add(ni)
-        nets[name] = ni
+        ni = board.FindNet(name)
+        if ni is None:
+            ni = pcbnew.NETINFO_ITEM(board, name)
+            board.Add(ni)
         for nd in find_all(n, "node"):
             pin_net[(str(find(nd, "ref")[1]), str(find(nd, "pin")[1]))] = ni
+    return net, pin_net
 
-    for comp in find_all(find(net, "components"), "comp"):
-        ref = str(find(comp, "ref")[1])
-        fpid = str(find(comp, "footprint")[1])
-        value = str(find(comp, "value")[1])
-        tstamp = str(find(comp, "tstamps")[1])
-        fp = load_fp(fpid)
-        fp.SetReference(ref)
-        fp.SetValue(value)
-        fp.SetPath(pcbnew.KIID_PATH("/" + tstamp))
-        x, y, rot = design.PCB_POS[ref]
-        fp.SetPosition(v(x, y))
-        fp.SetOrientationDegrees(rot)
-        props = {str(find(p, "name")[1]): str(find(p, "value")[1]) for p in find_all(comp, "property")
-                 if find(p, "value") is not None}
-        for k in ("LCSC", "MPN", "Manufacturer"):
-            if props.get(k):
-                fp.SetField(k, props[k])
-                f = fp.GetFieldByName(k)
-                f.SetVisible(False)
-                f.SetLayer(pcbnew.F_Fab)
-        if design.C[ref]["dnp"]:
-            fp.SetDNP(True)
-            fp.SetExcludedFromPosFiles(True)
-        # reference designators live on the assembly (Fab) layer; silk keeps only
-        # connector/function labels so nothing is printed over pads
-        fp.Reference().SetLayer(pcbnew.F_Fab)
-        board.Add(fp)
-        for pad in fp.Pads():
-            ni = pin_net.get((ref, pad.GetNumber()))
-            if ni is not None:
-                pad.SetNet(ni)
 
-    # outline with 1 mm corner radius
+def draw_outline(board):
+    """Board outline with 1 mm corner radius."""
     w, h, r = design.BOARD_W, design.BOARD_H, 1.0
     segs = [((r, 0), (w - r, 0)), ((w, r), (w, h - r)), ((w - r, h), (r, h)), ((0, h - r), (0, r))]
     for a, b in segs:
@@ -122,15 +133,31 @@ def place(netfile, out):
         a.SetWidth(MM(0.1))
         board.Add(a)
 
-    for text, x, y, size, rot, layer in design.SILK:
-        add_text(board, text, x, y, size, rot, layer)
 
+def set_title_block(board):
     tb = board.GetTitleBlock()
     tb.SetTitle(design.TITLE)
     tb.SetRevision(f"{design.PCB_REV} ({design.HW_VERSION})")
     tb.SetDate(design.DATE)
     tb.SetCompany("AccessBridge project")
     tb.SetComment(0, "License: CERN-OHL-S-2.0")
+
+
+def place(netfile, out):
+    board = pcbnew.NewBoard(out)
+    net, pin_net = read_netlist(board, netfile)
+
+    for comp in find_all(find(net, "components"), "comp"):
+        fp = make_footprint(comp)
+        board.Add(fp)
+        assign_nets(fp, pin_net)
+
+    draw_outline(board)
+
+    for text, x, y, size, rot, layer in design.SILK:
+        add_text(board, text, x, y, size, rot, layer)
+
+    set_title_block(board)
 
     x1, y1, x2, y2 = design.ANTENNA_KEEPOUT
     zone(board, pcbnew.F_Cu, [(x1, y1), (x2, y1), (x2, y2), (x1, y2)], "Antenna keep-out", keepout=True)
@@ -174,11 +201,11 @@ def zone(board, layer, pts, name, net=None, keepout=False):
 
 
 def remove_dangling(board):
-    """Delete track stubs left by the autorouter that end on nothing (one pass)."""
+    """Delete track stubs and vias left by the autorouter that end on nothing (one pass)."""
     board.BuildConnectivity()
     conn = board.GetConnectivity()
     stubs = [t for t in board.GetTracks()
-             if t.Type() == pcbnew.PCB_TRACE_T and conn.TestTrackEndpointDangling(t, False)]
+             if t.Type() in (pcbnew.PCB_TRACE_T, pcbnew.PCB_VIA_T) and conn.TestTrackEndpointDangling(t, False)]
     for t in stubs:
         board.Remove(t)
     return len(stubs)
@@ -244,9 +271,101 @@ def shift(path):
     board.Save(path)
 
 
+def pad_box(pad):
+    bb = pad.GetBoundingBox()
+    bb.Inflate(MM(0.25))
+    return bb
+
+
+def update(netfile, path):
+    """Incremental change of an existing, routed board (Rev A -> Rev B).
+
+    Keeps every existing footprint position and track. Adds footprints that are
+    new in the netlist, moves footprints whose design.PCB_POS changed, applies
+    net changes, and removes only the tracks that touch a pad with a changed
+    net or overlap a new/moved footprint. The remaining tracks are locked, so
+    Freerouting (Specctra "protect") routes only the missing connections.
+    """
+    _origin[:] = design.SHEET_ORIGIN
+    board = pcbnew.LoadBoard(path)
+    # collect every item list before modifying the board: iterating Zones() or
+    # Tracks() after a Remove() crashes the KiCad 9 SWIG bindings
+    tracks = list(board.GetTracks())
+    zones = list(board.Zones())
+    drawings = list(board.GetDrawings())
+    net, pin_net = read_netlist(board, netfile)
+    existing = {fp.GetReference(): fp for fp in board.GetFootprints()}
+    changed_pads, touched = [], []
+    for comp in find_all(find(net, "components"), "comp"):
+        ref = str(find(comp, "ref")[1])
+        fp = existing.get(ref)
+        if fp is None:
+            fp = make_footprint(comp)
+            board.Add(fp)
+            touched.append(fp)
+            print(f"added {ref}")
+        else:
+            x, y, rot = design.PCB_POS[ref]
+            if fp.GetPosition() != v(x, y) or abs(fp.GetOrientationDegrees() - rot) > 0.01:
+                fp.SetPosition(v(x, y))
+                fp.SetOrientationDegrees(rot)
+                touched.append(fp)
+                print(f"moved {ref}")
+        for pad in assign_nets(fp, pin_net):
+            changed_pads.append(pad)
+            print(f"net change {ref}.{pad.GetNumber()} -> {pad.GetNetname()}")
+
+    boxes = []
+    for fp in touched:
+        bb = fp.GetCourtyard(pcbnew.F_CrtYd).BBox() if fp.GetCourtyard(pcbnew.F_CrtYd).OutlineCount() else fp.GetBoundingBox()
+        bb.Inflate(MM(0.4))
+        boxes.append(bb)
+    removed = 0
+    kept = []
+    for t in tracks:
+        pts = [t.GetPosition()] if t.Type() == pcbnew.PCB_VIA_T else [t.GetStart(), t.GetEnd()]
+        hit = any(pad.HitTest(p) for pad in changed_pads for p in pts)
+        # also tracks of another net that merely pass over/into a re-netted pad
+        hit = hit or any(t.GetNetname() != pad.GetNetname() and pad_box(pad).Intersects(t.GetBoundingBox())
+                         for pad in changed_pads)
+        hit = hit or any(bb.Intersects(t.GetBoundingBox()) for bb in boxes)
+        if hit:
+            board.Remove(t)
+            removed += 1
+        else:
+            kept.append(t)
+    print(f"removed {removed} affected tracks/vias")
+
+    # outline, silkscreen texts, drawing annotations and copper pours are
+    # regenerated from design.py (finish adds pours + dimensions again)
+    for d in drawings:
+        if d.GetLayer() in (pcbnew.Edge_Cuts, pcbnew.Dwgs_User) or (
+                d.Type() == pcbnew.PCB_TEXT_T and d.GetLayer() in (pcbnew.F_SilkS, pcbnew.B_SilkS)):
+            board.Remove(d)
+    draw_outline(board)
+    for text, x, y, size, rot, layer in design.SILK:
+        add_text(board, text, x, y, size, rot, layer)
+    for z in zones:
+        if not z.GetIsRuleArea() or z.GetZoneName() == "Antenna end: no pour":
+            board.Remove(z)
+    set_title_block(board)
+    for t in kept:
+        t.SetLocked(True)
+    board.Save(path)
+
+
+def lock(path):
+    board = pcbnew.LoadBoard(path)
+    for t in board.GetTracks():
+        t.SetLocked(True)
+    board.Save(path)
+
+
 def finish(path):
     _origin[:] = design.SHEET_ORIGIN
     board = pcbnew.LoadBoard(path)
+    for t in board.GetTracks():
+        t.SetLocked(False)
     add_dimensions(board)
     for z in list(board.Zones()):
         if not z.GetIsRuleArea():
@@ -282,6 +401,8 @@ def ses(path, sesfile):
 if __name__ == "__main__":
     if sys.argv[1] == "place":
         place(sys.argv[2], sys.argv[3])
+    elif sys.argv[1] == "update":
+        update(sys.argv[2], sys.argv[3])
     elif sys.argv[1] == "dsn":
         dsn(sys.argv[2], sys.argv[3])
     elif sys.argv[1] == "ses":
@@ -290,6 +411,8 @@ if __name__ == "__main__":
         clean(sys.argv[2])
     elif sys.argv[1] == "shift":
         shift(sys.argv[2])
+    elif sys.argv[1] == "lock":
+        lock(sys.argv[2])
     elif sys.argv[1] == "finish":
         finish(sys.argv[2])
     else:

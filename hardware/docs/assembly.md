@@ -2,9 +2,9 @@
 
 ## Ordering at JLCPCB (PCB + SMT assembly, top side only)
 
-1. Upload `hardware/manufacturing/accessbridge-c6-HW-1.0-revA-gerbers.zip`.
+1. Upload `hardware/manufacturing/accessbridge-c6-HW-1.1-revB-gerbers.zip`.
    * 2 layers, FR-4, 1.6 mm, 1 oz copper, HASL (lead-free) or ENIG, any colour.
-   * Board size: 86 x 56 mm (detected from the Gerbers).
+   * Board size: 96 x 56 mm (detected from the Gerbers).
 2. Enable **PCB Assembly**, top side, "Economic" or "Standard".
 3. BOM: `hardware/manufacturing/bom/accessbridge-jlcpcb-bom.csv`.
    CPL: `hardware/manufacturing/pick-and-place/accessbridge-jlcpcb-cpl.csv`.
@@ -17,7 +17,8 @@
    * Check stock. Every LCSC number was taken from search results during
      design (2026-10); availability changes.
 5. **Check the rotation preview** for U1 (TSOT-23-6), U3-U6 (SO-4/SOP-4),
-   Q1 (SOT-23), D1-D3/D9-D12 (SMA polarity) and D6-D8 (SOD-123). JLCPCB's
+   Q1 (SOT-23), D1-D3/D9-D16 (SMA polarity), D6-D8 (SOD-123) and J6 (USB-C opening
+   must face the board edge). JLCPCB's
    footprint origins/rotations sometimes differ from KiCad's. Correct them in
    the preview if needed. This could not be verified without access to
    JLCPCB's tool.

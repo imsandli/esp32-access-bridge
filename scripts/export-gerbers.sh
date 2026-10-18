@@ -34,6 +34,9 @@ if [ "${1:-}" != "--no-renders" ]; then
   KICAD_IMAGE="${KICAD_IMAGE_FULL:-kicad/kicad:9.0.9-full}"
   kicad pcb render -o "$IMG/pcb-top.png" --side top --width 1600 --height 1100 --quality high "$P"
   kicad pcb render -o "$IMG/pcb-bottom.png" --side bottom --width 1600 --height 1100 --quality high "$P"
+  # PCB + 3D models as STEP for the enclosure fit check (origin = board corner)
+  kicad pcb export step --subst-models --drill-origin --no-dnp \
+    -o hardware/enclosure/models/pcb/accessbridge-c6.step "$P"
   kicad pcb render -o "$IMG/pcb-iso.png" --side top --rotate "-40,0,-30" --zoom 0.9 --width 1600 --height 1100 --quality high "$P"
 fi
 echo "OK: fabrication data in hardware/manufacturing/"

@@ -1,4 +1,4 @@
-# Fabrication data: AccessBridge C6 HW-1.0 Rev A
+# Fabrication data: AccessBridge C6 HW-1.1 Rev B
 
 **Generated files. Do not edit by hand.** They are produced from
 `hardware/kicad/` by:
@@ -14,7 +14,7 @@ Tagged releases attach the same files.
 
 | Path | Content |
 |---|---|
-| `accessbridge-c6-HW-1.0-revA-gerbers.zip` | **Upload to JLCPCB.** Gerbers + Excellon drill, flat ZIP, deterministic |
+| `accessbridge-c6-HW-1.1-revB-gerbers.zip` | **Upload to JLCPCB.** Gerbers + Excellon drill, flat ZIP, deterministic |
 | `gerber/` | Gerber X2, Protel extensions: F/B Cu, Mask, Paste, Silkscreen, Edge.Cuts, job file |
 | `drill/` | Excellon (mm, plated and non-plated in one file), drill map PDF |
 | `bom/accessbridge-bom-full.csv` | All parts: manufacturer, MPN, LCSC, sourcing status |
@@ -31,7 +31,7 @@ board's top-left corner.
 |---|---|
 | Layers | 2 |
 | Material | FR-4, 1.6 mm, 1 oz Cu |
-| Size | 86.0 x 56.0 mm, 1 mm corner radius |
+| Size | 96.0 x 56.0 mm, 1 mm corner radius |
 | Min. track / clearance | 0.25 / 0.2 mm (JLCPCB standard capability) |
 | Min. drill | 0.3 mm vias, 1.0 mm socket pins, 1.3 mm terminals, 3.2 mm NPTH mounting holes |
 | Assembly | SMT top side only, plus THT terminals and sockets (manual or JLCPCB THT) |

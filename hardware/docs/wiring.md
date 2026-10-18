@@ -59,6 +59,21 @@ UniFi Access version.
 parallel to a powered output. Use the second (Aux) relay, or a separate
 coupling relay.
 
+## USB-C power input (optional, J6, Rev B)
+
+J6 is a **power-only** USB-C receptacle (5 V, USB-C sink with 5.1 kΩ CC
+resistors), so any USB-C charger or a PC port works. The whole board runs from it,
+contact inputs included, which is handy on the bench or as a fallback. Notes:
+
+* **No data.** Firmware upload uses the XIAO's own USB-C (15 mm to the left on
+  the same edge).
+* USB and 12 V may be connected at the same time. Diodes OR the sources and
+  block back-feeding.
+* On USB alone, the contact-loop current drops to about 1.1 mA (enough for the
+  optocouplers, but less wetting current for the relay contacts). **J4 OUT+ has
+  no power on USB alone** (12 V only).
+* For the permanent installation, prefer the UA-Hub LINE 12 V.
+
 ## Doorbell (optional, J2 BELL)
 
 If your bell push switches 230 V directly:
@@ -98,7 +113,8 @@ Zigbee control is planned for FW-1.1.0; FW-1.0.0 keeps the output off.
 
 ## Commissioning
 
-1. Wire J1 **without** the XIAO plugged in. Apply PoE to the UA-Hub.
+1. Wire J1 **without** the XIAO plugged in. Apply PoE to the UA-Hub (or, for
+   a bench test, plug a USB-C charger into J6).
 2. Check the PWR LED (green). Measure about 5 V on the XIAO socket pin 14
    (5V) against pin 13 (GND), and confirm the voltage is behind D3 (about
    4.6-4.8 V).

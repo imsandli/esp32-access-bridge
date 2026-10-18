@@ -11,8 +11,8 @@ KICAD_DIR="$HW/kicad"
 PCB="$KICAD_DIR/accessbridge.kicad_pcb"
 SCH="$KICAD_DIR/accessbridge.kicad_sch"
 MFG="$HW/manufacturing"
-HW_VERSION="HW-1.0"
-PCB_REV="A"
+HW_VERSION="HW-1.1"
+PCB_REV="B"
 
 # Global KiCad library tables are needed for library checks in a fresh
 # environment (CI container, new user profile).

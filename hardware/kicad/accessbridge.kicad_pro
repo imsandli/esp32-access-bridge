@@ -385,6 +385,14 @@
       {
         "netclass": "Field",
         "pattern": "/SSR_B"
+      },
+      {
+        "netclass": "Power",
+        "pattern": "/VBUS"
+      },
+      {
+        "netclass": "Power",
+        "pattern": "/VBUS_F"
       }
     ]
   },
@@ -413,7 +421,7 @@
     ]
   ],
   "text_variables": {
-    "HW_VERSION": "HW-1.0",
-    "PCB_REV": "A"
+    "HW_VERSION": "HW-1.1",
+    "PCB_REV": "B"
   }
 }

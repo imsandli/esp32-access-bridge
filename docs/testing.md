@@ -15,13 +15,14 @@ Test levels, and what each one proves:
 AccessBridge must not be called *hardware-tested* until the electrical tests
 below have been run on a physical board and recorded here.
 
-## Current status (HW-1.0 Rev A + FW-1.0.0)
+## Current status (HW-1.1 Rev B + FW-1.0.0)
 
 | Level | Status | Evidence |
 |---|---|---|
 | Statically checked | **done** | ERC 0/0, DRC 0 violations / 0 unconnected / 0 parity (CI `hardware`); `esphome config` OK; HA `check_config` OK |
 | Compiled | **done** | CI `firmware` (ESPHome 2026.9.1) |
 | Software-tested | **done** | 12/12 blueprint tests (CI `integrations`, HA 2026.2.3) |
+| Enclosure fit-checked | **done** | `hardware/enclosure/check_fit.py` (CI `hardware` / enclosure job): no collision, lid clearance, USB-C cut-outs, gland, inserts vs antenna |
 | Electrically tested | not started | no PCB manufactured yet |
 | Z2M tested | not started | |
 | UA-Hub tested | not started | |
@@ -47,12 +48,16 @@ tester in the result column, and commit the change.
 | T-EL-11 | DPS output mode (JP 2-3): SSR contact resistance when driven (GPIO21 high via test firmware) | < 2 Ω; open when unpowered | |
 | T-EL-12 | OUT: 100 mA load, Q1 temperature | < 50 °C rise | |
 | T-EL-13 | Thermal: 1 h in closed enclosure, 25 °C ambient | no part > 60 °C | |
+| T-EL-14 | USB-C (J6) only, 5 V charger, no 12 V | XIAO runs; contact inputs work (loop current ~1.1 mA, INx_SIG < 0.4 V closed); OUT dead (expected) | |
+| T-EL-15 | J6 USB-C and 12 V at the same time | no back-feed (VBUS < 5.3 V, +12V unchanged); D13/D3 OR works | |
+| T-EL-16 | J6 USB-C and XIAO USB-C (PC) at the same time | PC enumerates the XIAO; flashing works; no back-feed into the PC beyond Seeed's diode rule | |
+| T-EL-17 | Non-PD USB-C charger and a USB-A to USB-C cable | board powers up (5.1 kΩ CC sink resistors) | |
 
 ## 2. Firmware on hardware
 
 | ID | Test | Expected | Result |
 |---|---|---|---|
-| T-FW-1 | Flash FW-1.0.0 over USB-C, boot log | `AccessBridge C6 HW-1.0 Rev A, antenna: ceramic`, Zigbee started | |
+| T-FW-1 | Flash FW-1.0.0 over USB-C, boot log | `AccessBridge C6 HW-1.x, antenna: ceramic`, Zigbee started | |
 | T-FW-2 | Contact pulse 200 ms (signal generator + relay) | 1 x `relay pulse #n`; counter +1 | |
 | T-FW-3 | Contact pulse 20 ms (< debounce 40 ms) | not counted | |
 | T-FW-4 | Bouncing contact (10 bounces within 5 ms, then held) | exactly 1 pulse | |
@@ -105,12 +110,17 @@ tester in the result column, and commit the change.
 
 | ID | Test | Expected | Result |
 |---|---|---|---|
-| T-ME-1 | PCB in Hammond 1591XXD with M3 standoffs | fits; lid closes; terminals reachable | |
-| T-ME-2 | USB-C reachable through the cut-out with a standard cable | plugs fully | |
+| T-ME-1 | Printed base (PETG/ASA): PCB on heat-set inserts | fits; lid closes; terminals reachable | |
+| T-ME-4 | DIN variant on a TS35 rail | snaps on, holds, releases with a screwdriver | |
+| T-ME-5 | Wall variant | mounts with 2 screws through the flange slots | |
+| T-ME-6 | PAIR plunger + LED light holes | button operable through the lid; LEDs visible | |
+| T-ME-7 | M16 gland + clamp bar | gland nut fits; cables clamped | |
+| T-ME-8 | Zigbee range in the closed case vs. open (LQI) | no significant loss | |
+| T-ME-2 | USB-C (XIAO and J6) through the cut-outs with standard cables | both plug fully (wall 1.2 mm at the recesses); XIAO cut-out height matches the real socket stack | |
 | T-ME-3 | Cable gland + strain relief | 50 N pull without moving the terminals | |
 
 ## Firmware/hardware compatibility record
 
 | Firmware | Hardware | Tested levels | Date |
 |---|---|---|---|
-| FW-1.0.0 | HW-1.0 Rev A | statically checked, compiled, software-tested | 2026-10-18 |
+| FW-1.0.0 | HW-1.1 Rev B | statically checked, compiled, software-tested, enclosure fit-checked (CadQuery vs PCB STEP) | 2026-10-18 |

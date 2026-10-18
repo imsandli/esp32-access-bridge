@@ -57,3 +57,31 @@ jobs:
             hardware/enclosure/drawings/
             build/reports/
           if-no-files-found: error
+
+  enclosure:
+    name: 3D-printed enclosure (fit check + model consistency)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+      - name: Install pinned CadQuery environment
+        run: pip install -r hardware/enclosure/requirements.txt
+      - name: Fit check against the PCB STEP
+        run: |
+          python hardware/enclosure/check_fit.py | tee /tmp/fit.txt
+          echo "::notice title=Enclosure fit::$(tail -n 4 /tmp/fit.txt | tr '\n' ';')"
+      - name: Committed STL/STEP match the CadQuery source
+        run: |
+          python hardware/enclosure/models/accessbridge_enclosure.py --out build/enclosure
+          python scripts/tools/check_enclosure_models.py hardware/enclosure/models build/enclosure | tee /tmp/models.txt
+          echo "::notice title=Enclosure models::$(cat /tmp/models.txt)"
+      - name: Upload print files
+        uses: actions/upload-artifact@v4
+        with:
+          name: accessbridge-enclosure
+          path: |
+            build/enclosure/*.stl
+            build/enclosure/*.step
+          if-no-files-found: error

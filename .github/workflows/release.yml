@@ -66,6 +66,7 @@ jobs:
           cp "$F"/hardware/manufacturing/bom/accessbridge-manual-assembly.csv out/accessbridge-c6-${HW}-rev${REV}-manual-assembly.csv
           cp "$F"/hardware/manufacturing/pick-and-place/accessbridge-jlcpcb-cpl.csv out/accessbridge-c6-${HW}-rev${REV}-jlcpcb-cpl.csv
           cp "$F"/hardware/docs/schematic.pdf out/accessbridge-c6-${HW}-rev${REV}-schematic.pdf
+          for f in dl/accessbridge-enclosure/*.stl; do cp "$f" "out/$(basename "${f%.stl}")-${HW}.stl"; done
           cp "$F"/hardware/enclosure/drawings/accessbridge-c6-dimensions.pdf out/accessbridge-c6-${HW}-rev${REV}-dimensions.pdf
           (cd out && sha256sum * > SHA256SUMS)
           {

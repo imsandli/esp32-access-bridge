@@ -1,4 +1,4 @@
-"""AccessBridge C6 (HW-1.0 / Rev A): single source of truth used to bootstrap
+"""AccessBridge C6 (HW-1.1 / Rev B; Rev A = HW-1.0 without J6/USB-C power): single source of truth used to bootstrap
 the KiCad schematic and PCB.
 
 After bootstrap the KiCad files in hardware/kicad/ are the editable sources;
@@ -11,8 +11,8 @@ Coordinates:
 
 PROJECT = "accessbridge"
 TITLE = "AccessBridge C6"
-HW_VERSION = "HW-1.0"
-PCB_REV = "A"
+HW_VERSION = "HW-1.1"
+PCB_REV = "B"
 DATE = "2026-10-18"
 
 # --- part catalogue -------------------------------------------------------
@@ -51,6 +51,10 @@ P = {
     "HDR4": ("Connector_Generic:Conn_01x04", "EXP", "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical", "generic", "2.54 mm 1x4 pin header", "", "manual"),
     "XIAO": ("AccessBridge:XIAO_ESP32C6", "XIAO_ESP32C6", "AccessBridge:XIAO_ESP32C6_Socketed", "Seeed Studio", "113991254 (module) + 2x female header 1x7 2.54 mm", "", "manual"),
     "SJ3": ("Jumper:SolderJumper_3_Bridged12", "SolderJumper_3_Bridged12", "Jumper:SolderJumper-3_P1.3mm_Bridged12_RoundedPad1.0x1.5mm_NumberLabels", "-", "PCB solder jumper", "", "pcb"),
+    "USBC": ("Connector:USB_C_Receptacle_PowerOnly_6P", "USB-C 5V", "Connector_USB:USB_C_Receptacle_GCT_USB4125-xx-x_6P_TopMnt_Horizontal", "GCT", "USB4125-GF-A", "C3151650", "confirmed"),
+    "R5k1": ("Device:R", "5.1k", "Resistor_SMD:R_0603_1608Metric", "UNI-ROYAL", "0603WAF5101T5E", "C23186", "confirmed"),
+    "F500": ("Device:Polyfuse", "500mA/30V", "Fuse:Fuse_1206_3216Metric", "BHFUSE", "BSMD1206-050-30V", "C883126", "confirmed"),
+    "TVS5": ("Diode:SMAJ5.0A", "SMAJ5.0A", "Diode_SMD:D_SMA", "Littelfuse", "SMAJ5.0A", "C83329", "confirmed"),
     "MH": ("Mechanical:MountingHole", "M3", "MountingHole:MountingHole_3.2mm_M3", "-", "M3 mounting hole", "", "pcb"),
 }
 
@@ -119,7 +123,7 @@ for n in (1, 2, 3):
     u, dr, dt, cf, r0 = IN_REFS[n]
     y = IN_SCH_Y[n]
     k = f"IN{n}_COM" if n < 3 else "IN3_K"
-    C[f"R{r0}"] = comp("R2k2", {"1": "+12V", "2": f"IN{n}_A"}, (91.44, y - 5.08, 0))
+    C[f"R{r0}"] = comp("R2k2", {"1": "V_LOOP", "2": f"IN{n}_A"}, (91.44, y - 5.08, 0))
     C[f"U{u}"] = comp("OPTO", {"1": f"IN{n}_A", "2": k, "3": G, "4": f"IN{n}_C"},
                       (124.46, y, 0))
     C[f"D{dr}"] = comp("1N4148W", {"1": f"IN{n}_A", "2": k}, (106.68, y + 10.16, 90))
@@ -143,6 +147,22 @@ C["R6"] = comp("R100", {"1": "OUT_DRV", "2": "OUT_G"}, (340.36, 210.82, 90))
 C["R7"] = comp("R10k", {"1": "OUT_G", "2": G}, (350.52, 228.6, 0))
 C["D12"] = comp("SS14", {"2": "OUT_SW", "1": "+12V"}, (381.0, 200.66, 90))
 
+# USB-C power input (Rev B) ---------------------------------------------------
+# Power only: the XIAO does not route USB D+/D- to its pins, so firmware is
+# flashed through the XIAO's own USB-C. VBUS feeds +5V_XIAO and the contact
+# loops (V_LOOP) through diodes; J4 OUT+ stays on +12V only.
+C["J6"] = comp("USBC", {"A9": "VBUS", "B9": "VBUS", "A5": "CC1", "B5": "CC2", "A12": G, "B12": G, "S1": G},
+               (220.98, 259.08, 0), value="USB-C 5V", note="USB-C power input 5 V (sink, no data)")
+C["R22"] = comp("R5k1", {"1": "CC1", "2": G}, (247.65, 271.78, 0))
+C["R23"] = comp("R5k1", {"1": "CC2", "2": G}, (257.81, 271.78, 0))
+C["F2"] = comp("F500", {"1": "VBUS", "2": "VBUS_F"}, (247.65, 255.27, 0))
+C["D14"] = comp("TVS5", {"1": "VBUS_F", "2": G}, (257.81, 255.27, 90))
+C["C11"] = comp("C10u25", {"1": "VBUS_F", "2": G}, (283.21, 260.35, 0))
+C["D13"] = comp("SS14", {"2": "VBUS_F", "1": "+5V_XIAO"}, (270.51, 254.0, 0),
+                note="USB 5 V into the XIAO 5V pin through a diode (Seeed), OR-ed with D3")
+C["D16"] = comp("SS14", {"2": "VBUS_F", "1": "V_LOOP"}, (270.51, 266.7, 0))
+C["D15"] = comp("SS14", {"2": "+12V", "1": "V_LOOP"}, (270.51, 279.4, 0))
+
 # Mechanical ----------------------------------------------------------------
 for i in range(1, 5):
     C[f"H{i}"] = comp("MH", {}, (393.7, 30.48 + 7.62 * i, 0))
@@ -164,29 +184,42 @@ FRAMES = [
     ("CONNECTORS (field side)", 12.7, 25.4, 63.5, 182.88),
     ("POWER: 12 V input protection, 5 V buck, XIAO 5 V feed", 66.04, 25.4, 309.88, 81.28),
     ("MCU: XIAO ESP32C6 (socketed)", 312.42, 25.4, 406.4, 182.88),
-    ("CONTACT INPUTS: opto loops powered from board +12 V (no external voltage)", 12.7, 185.42, 200.66, 281.94),
-    ("DPS PORT: input (default) or isolated SSR output", 203.2, 185.42, 309.88, 248.92),
+    ("CONTACT INPUTS: opto loops powered from V_LOOP (+12 V or USB 5 V)", 12.7, 185.42, 200.66, 281.94),
+    ("DPS PORT: input (default) or isolated SSR output", 203.2, 185.42, 309.88, 240.03),
     ("OPEN-DRAIN OUTPUT (<=12 V / 100 mA)", 312.42, 185.42, 406.4, 248.92),
+    ("USB-C POWER INPUT 5 V (power only, Rev B)", 203.2, 241.3, 288.29, 285.75),
 ]
 
 NOTES = [
     ((68.58, 88.9), "Power budget: UA-Hub LINE output 12 V / 0.33 A max. F1 holds 200 mA."),
     ((68.58, 93.98), "D2 = reverse-polarity protection; D1 + F1 clamp surges / reversed input."),
     ((68.58, 99.06), "D3: Seeed requires a diode (anode = supply) when feeding the XIAO 5V pin."),
-    ((68.58, 104.14), "Field loops: +12V -> 2.2k -> opto LED -> COM ... contact ... NO -> 1k -> GND (~3.3 mA)."),
+    ((68.58, 104.14), "Field loops: V_LOOP -> 2.2k -> opto LED -> COM ... contact ... NO -> 1k -> GND (~3.3 mA at 12 V, ~1.1 mA on USB)."),
     ((68.58, 109.22), "Contact closed -> opto ON -> INx_SIG LOW (active low). RC 1k/10n + firmware debounce."),
     ((68.58, 114.3), "J2.3/J2.4 (DPS): JP1/JP2 1-2 = input (reed contact); 2-3 = SSR output to UA-Hub DPS input."),
     ((68.58, 119.38), "Never wire DPS input in parallel with a reed that already feeds the UA-Hub DPS input."),
     ((68.58, 124.46), "No mains voltage on this PCB. 230 V doorbells: use a certified coupling relay (electrician)."),
+    ((68.58, 129.54), "J6 USB-C (Rev B): 5 V power only, no data. Firmware upload uses the XIAO's own USB-C."),
+    ((68.58, 134.62), "VBUS -> F2 -> D13 -> +5V_XIAO (OR with D3) and D16 -> V_LOOP (OR with D15 from +12V). J4 OUT+ is 12 V only."),
 ]
 
 
 # --- PCB placement (mm, rotation deg), front side only ----------------------
 # Board placed on the A4 drawing sheet at this offset; aux origin = board corner
 SHEET_ORIGIN = (40.0, 40.0)
-BOARD_W = 86.0
+BOARD_W = 96.0
 BOARD_H = 56.0
 PCB_POS = {
+    # Rev B additions (right-hand strip, board widened from 86 to 96 mm)
+    "J6": (83.0, 3.4, 180),
+    "R22": (83.0, 9.6, 90),
+    "R23": (86.5, 9.6, 90),
+    "F2": (86.0, 15.0, 90),
+    "D14": (91.0, 18.0, 90),
+    "D13": (86.0, 22.0, 90),
+    "D16": (91.0, 30.0, 90),
+    "D15": (86.0, 34.0, 90),
+    "C11": (91.0, 38.0, 90),
     "C1": (16.8, 8.0, 90),
     "C2": (19.3, 8.0, 90),
     "C3": (26.0, 9.0, 90),
@@ -211,9 +244,9 @@ PCB_POS = {
     "D12": (77.0, 41.0, 90),
     "F1": (5.5, 21.0, 90),
     "H1": (4.0, 4.0, 0),
-    "H2": (82.0, 4.0, 0),
+    "H2": (92.0, 4.0, 0),
     "H3": (4.0, 52.0, 0),
-    "H4": (82.0, 52.0, 0),
+    "H4": (92.0, 52.0, 0),
     "J1": (11.0, 50.5, 0),
     "J2": (33.0, 50.5, 0),
     "J3": (43.0, 4.0, 180),
@@ -260,7 +293,8 @@ ANTENNA_NO_POUR = (58.8, 19.0, 77.2, 24.0)
 
 # Silkscreen texts: (text, x, y, size, rotation, layer)
 SILK = [
-    ("AccessBridge C6  HW-1.0  Rev A", 24.0, 2.2, 1.0, 0, "F.SilkS"),
+    ("AccessBridge C6  HW-1.1  Rev B", 24.0, 2.2, 1.0, 0, "F.SilkS"),
+    ("USB 5V", 90.5, 9.6, 0.8, 90, "F.SilkS"),
     ("+12V", 11.0, 44.0, 0.9, 0, "F.SilkS"),
     ("GND", 16.08, 44.0, 0.9, 0, "F.SilkS"),
     ("COM", 21.16, 44.0, 0.9, 0, "F.SilkS"),
@@ -280,9 +314,10 @@ SILK = [
     ("QWIIC 3V3", 43.0, 8.2, 0.8, 0, "F.SilkS"),
     ("NO COPPER - ANTENNA", 68.0, 28.5, 0.8, 0, "F.SilkS"),
     ("JP1/JP2: 1-2 = DPS IN, 2-3 = DPS OUT (SSR)", 43.0, 43.0, 1.0, 0, "B.SilkS"),
-    ("AccessBridge C6 HW-1.0 Rev A - CERN-OHL-S-2.0", 43.0, 30.0, 1.2, 0, "B.SilkS"),
+    ("AccessBridge C6 HW-1.1 Rev B - CERN-OHL-S-2.0", 43.0, 30.0, 1.2, 0, "B.SilkS"),
+    ("J6 USB-C: 5V power only (no data)", 43.0, 45.5, 1.0, 0, "B.SilkS"),
     ("J1: 1 +12V  2 GND  3 RELAY COM  4 RELAY NO", 43.0, 33.0, 1.0, 0, "B.SilkS"),
     ("J2: 1 BELL COM  2 BELL NO  3 DPS A  4 DPS B", 43.0, 35.5, 1.0, 0, "B.SilkS"),
     ("J4: 1 OUT +12V  2 OUT SW (low side)", 43.0, 38.0, 1.0, 0, "B.SilkS"),
-    ("Supply: UA-Hub LINE 12V DC only - no mains", 43.0, 40.5, 1.0, 0, "B.SilkS"),
+    ("Supply: UA-Hub LINE 12V or USB-C 5V - no mains", 43.0, 40.5, 1.0, 0, "B.SilkS"),
 ]

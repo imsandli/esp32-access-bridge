@@ -1,4 +1,4 @@
-# AccessBridge C6 HW-1.0 / Rev A: board definition and the ONLY place where
+# AccessBridge C6 HW-1.1 / Rev B (same GPIO map as HW-1.0 / Rev A): board definition and the ONLY place where
 # GPIO numbers are defined. Mapping verified against the Seeed XIAO ESP32C6
 # wiki (D-pin -> GPIO) and hardware/kicad/accessbridge.kicad_sch.
 #
@@ -49,4 +49,4 @@ esphome:
           gpio_reset_pin(GPIO_NUM_14);
           gpio_set_direction(GPIO_NUM_14, GPIO_MODE_OUTPUT);
           gpio_set_level(GPIO_NUM_14, ${use_external_antenna} ? 1 : 0);
-          ESP_LOGI("board", "AccessBridge C6 HW-1.0 Rev A, antenna: %s", ${use_external_antenna} ? "U.FL" : "ceramic");
+          ESP_LOGI("board", "AccessBridge C6 HW-1.x, antenna: %s", ${use_external_antenna} ? "U.FL" : "ceramic");

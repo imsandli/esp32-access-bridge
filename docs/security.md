@@ -38,6 +38,7 @@ flowchart LR
 | Zigbee | Frames are encrypted with the network key. Only paired devices can send. | There is no end-to-end authentication from the UA-Hub to Home Assistant. A compromised Zigbee network or coordinator can inject events. |
 | Zigbee2MQTT / MQTT | Local broker. | Anyone with write access to the MQTT broker can publish fake states. Secure the broker with credentials and ACLs. |
 | Home Assistant | Runs the gates and calls the lock. | Anyone who controls HA controls the lock anyway. |
+| XIAO USB-C (in the enclosure wall) | Needed for firmware updates. | Physical access allows reflashing the device, for example with firmware that reports fake pulses. Mount the enclosure on the secure side, or leave the USB cut-out closed. J6 is power-only (no data). |
 
 **Consequence:** the overall security is limited by the **physical security of
 the relay wiring** and of the **Zigbee/MQTT/HA infrastructure**. Install

@@ -1,4 +1,6 @@
-# Pinout: AccessBridge C6 HW-1.0 / Rev A
+# Pinout: AccessBridge C6 HW-1.1 / Rev B
+
+The GPIO map is identical on HW-1.0 / Rev A. Rev B adds J6 (USB-C power input).
 
 The firmware takes GPIO numbers **only** from
 [`firmware/esphome/packages/board.yaml`](../../firmware/esphome/packages/board.yaml).
@@ -46,6 +48,7 @@ reports no strapping-pin warning for this configuration.
 | J4 | 2 | `OUT-` | `OUT_SW` | Low side, switched to GND by Q1 |
 | J3 | 1-4 | `QWIIC 3V3` | GND, +3V3, SDA, SCL | JST SH 1.0 mm, SparkFun Qwiic pin order |
 | J5 | 1-4 | - | +3V3, GPIO20, GPIO18, GND | 2.54 mm header (not populated) |
+| J6 | USB-C | `USB 5V` | VBUS, CC1/CC2 (5.1 kΩ each to GND), GND | **power only, 5 V** (GCT USB4125-GF-A). No data: firmware goes through the XIAO's USB-C |
 
 The pinout is also printed on the back silkscreen.
 

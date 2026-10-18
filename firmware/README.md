@@ -1,7 +1,7 @@
 # AccessBridge Zigbee firmware
 
 **FW-1.0.0**, ESPHome **2026.9.1**, ESP-IDF framework, target AccessBridge C6
-HW-1.0 Rev A (Seeed XIAO ESP32C6). MIT licence.
+HW-1.1 Rev B (Seeed XIAO ESP32C6); the GPIO map is identical on HW-1.0 Rev A. MIT licence.
 
 | Status | |
 |---|---|

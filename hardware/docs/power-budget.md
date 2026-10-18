@@ -42,11 +42,25 @@ enclosure the hold current drops (typical PTC derating). Keep the OUT load at
 or below 100 mA, or replace F1 with a larger hold current, which is safe up to
 the 330 mA LINE limit.
 
+## USB-C supply (J6, Rev B)
+
+| Path | Value |
+|---|---|
+| VBUS from a USB-C sink with 5.1 kΩ CC resistors | 5 V, at least 500 mA from any compliant source |
+| F2 PTC | 500 mA hold |
+| D13 SS14 into `+5V_XIAO` | XIAO 5V pin at about 4.6 V |
+| D16 SS14 into `V_LOOP` | loop current (5 - 0.35 - 1.2 V) / 3.2 kΩ, about 1.1 mA per closed input |
+| Total on USB (worst case, no OUT) | about 170 mA |
+
+With an EL357N CTR of 100 % or more, the optocouplers still sink more than
+1 mA against the 0.33 mA the 10 kΩ pull-ups need. Not measured yet: test T-EL-14.
+
 ## Voltage drops
 
 | Element | Drop | Result |
 |---|---|---|
 | D2 SS14 (reverse polarity) | ~0.3 V at 100 mA | +12V rail ~11.7 V |
+| D15 SS14 (+12V into V_LOOP) | ~0.25 V at 10 mA | V_LOOP ~11.4 V on 12 V supply, loop current ~3.2 mA |
 | D3 SS14 (XIAO feed) | ~0.35 V at 150 mA | XIAO 5V pin ~4.65 V, enough for the XIAO 3.3 V LDO |
 | Buck input range | AP63205: 3.8-32 V | works down to about 6 V input, so long cables are not critical |
 
