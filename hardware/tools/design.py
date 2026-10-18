@@ -24,6 +24,7 @@ P = {
     "R1k": ("Device:R", "1k", "Resistor_SMD:R_0603_1608Metric", "UNI-ROYAL", "0603WAF1001T5E", "C21190", "confirmed"),
     "R10k": ("Device:R", "10k", "Resistor_SMD:R_0603_1608Metric", "UNI-ROYAL", "0603WAF1002T5E", "C25804", "confirmed"),
     "R4k7": ("Device:R", "4.7k", "Resistor_SMD:R_0603_1608Metric", "UNI-ROYAL", "0603WAF4701T5E", "C23162", "confirmed"),
+    "R1k1206": ("Device:R", "1k", "Resistor_SMD:R_1206_3216Metric", "UNI-ROYAL", "1206W4F1001T5E", "C4410", "confirmed"),
     "R2k2": ("Device:R", "2.2k", "Resistor_SMD:R_0603_1608Metric", "UNI-ROYAL", "0603WAF2201T5E", "C4190", "secondary"),
     "R100": ("Device:R", "100", "Resistor_SMD:R_0603_1608Metric", "UNI-ROYAL", "0603WAF1000T5E", "C22775", "secondary"),
     "R470": ("Device:R", "470", "Resistor_SMD:R_0603_1608Metric", "generic", "0603 470R 1% thick film", "", "unverified"),
@@ -55,6 +56,7 @@ P = {
     "R5k1": ("Device:R", "5.1k", "Resistor_SMD:R_0603_1608Metric", "UNI-ROYAL", "0603WAF5101T5E", "C23186", "confirmed"),
     "F500": ("Device:Polyfuse", "500mA/30V", "Fuse:Fuse_1206_3216Metric", "BHFUSE", "BSMD1206-050-30V", "C883126", "confirmed"),
     "TVS5": ("Diode:SMAJ5.0A", "SMAJ5.0A", "Diode_SMD:D_SMA", "Littelfuse", "SMAJ5.0A", "C83329", "confirmed"),
+    "SJ2": ("Jumper:SolderJumper_2_Open", "SolderJumper_2_Open", "Jumper:SolderJumper-2_P1.3mm_Open_RoundedPad1.0x1.5mm", "-", "PCB solder jumper", "", "pcb"),
     "MH": ("Mechanical:MountingHole", "M3", "MountingHole:MountingHole_3.2mm_M3", "-", "M3 mounting hole", "", "pcb"),
 }
 
@@ -132,6 +134,11 @@ for n in (1, 2, 3):
     C[f"R{r0 + 2}"] = comp("R10k", {"1": "+3V3", "2": f"IN{n}_C"}, (149.86, y - 5.08, 0))
     C[f"C{cf}"] = comp("C10n", {"1": f"IN{n}_C", "2": G}, (160.02, y + 7.62, 0))
     C[f"R{r0 + 3}"] = comp("R1k", {"1": f"IN{n}_C", "2": f"IN{n}_SIG"}, (175.26, y + 2.54, 90))
+    # Selectable wetting current (Rev B): bridge JPx to put 1k in parallel with the
+    # 2.2k loop resistor, ~3.3 mA -> ~6 mA for relays with silver contacts.
+    C[f"JP{n + 2}"] = comp("SJ2", {"1": "V_LOOP", "2": f"IN{n}_WET"}, (30.48, y - 5.08, 0),
+                           note="open = ~3.3 mA loop current (default); bridged = ~6 mA")
+    C[f"R{n + 23}"] = comp("R1k1206", {"1": f"IN{n}_WET", "2": f"IN{n}_A"}, (45.72, y - 5.08, 0))
 
 # DPS port mode selection + solid-state relay ------------------------------
 C["JP1"] = comp("SJ3", {"1": "IN3_K", "2": "DPS_A", "3": "SSR_A"}, (215.9, 205.74, 0),
@@ -201,6 +208,7 @@ NOTES = [
     ((68.58, 124.46), "No mains voltage on this PCB. 230 V doorbells: use a certified coupling relay (electrician)."),
     ((68.58, 129.54), "J6 USB-C (Rev B): 5 V power only, no data. Firmware upload uses the XIAO's own USB-C."),
     ((68.58, 134.62), "VBUS -> F2 -> D13 -> +5V_XIAO (OR with D3) and D16 -> V_LOOP (OR with D15 from +12V). J4 OUT+ is 12 V only."),
+    ((68.58, 139.7), "JP3-JP5 (open by default): bridge to add R24-R26 (1k) in parallel with R10/R14/R18, loop current ~6 mA for silver-contact relays."),
 ]
 
 
@@ -220,6 +228,13 @@ PCB_POS = {
     "D16": (91.0, 30.0, 90),
     "D15": (86.0, 34.0, 90),
     "C11": (91.0, 38.0, 90),
+    # Rev B: selectable wetting current (JP3-JP5 + R24-R26)
+    "JP3": (9.2, 24.5, 90),
+    "R24": (12.0, 24.5, 90),
+    "JP4": (21.6, 22.0, 90),
+    "R25": (24.4, 22.0, 90),
+    "JP5": (37.6, 22.0, 90),
+    "R26": (40.4, 22.0, 90),
     "C1": (16.8, 8.0, 90),
     "C2": (19.3, 8.0, 90),
     "C3": (26.0, 9.0, 90),
@@ -309,7 +324,7 @@ SILK = [
     ("OUT+", 67.0, 44.2, 0.8, 0, "F.SilkS"),
     ("OUT-", 72.08, 44.2, 0.8, 0, "F.SilkS"),
     ("PAIR", 80.5, 22.9, 0.8, 0, "F.SilkS"),
-    ("PWR", 40.0, 19.9, 0.8, 0, "F.SilkS"),
+    ("PWR", 40.0, 16.3, 0.8, 0, "F.SilkS"),
     ("STAT", 47.5, 19.9, 0.8, 0, "F.SilkS"),
     ("QWIIC 3V3", 43.0, 8.2, 0.8, 0, "F.SilkS"),
     ("NO COPPER - ANTENNA", 68.0, 28.5, 0.8, 0, "F.SilkS"),

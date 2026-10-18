@@ -21,7 +21,7 @@ below have been run on a physical board and recorded here.
 |---|---|---|
 | Statically checked | **done** | ERC 0/0, DRC 0 violations / 0 unconnected / 0 parity (CI `hardware`); `esphome config` OK; HA `check_config` OK |
 | Compiled | **done** | CI `firmware` (ESPHome 2026.9.1) |
-| Software-tested | **done** | 12/12 blueprint tests (CI `integrations`, HA 2026.2.3) |
+| Software-tested | **done** | 15/15 blueprint tests (CI `integrations`, HA 2026.2.3) |
 | Enclosure fit-checked | **done** | `hardware/enclosure/check_fit.py` (CI `hardware` / enclosure job): no collision, lid clearance, USB-C cut-outs, gland, inserts vs antenna |
 | Electrically tested | not started | no PCB manufactured yet |
 | Z2M tested | not started | |
@@ -51,6 +51,7 @@ tester in the result column, and commit the change.
 | T-EL-14 | USB-C (J6) only, 5 V charger, no 12 V | XIAO runs; contact inputs work (loop current ~1.1 mA, INx_SIG < 0.4 V closed); OUT dead (expected) | |
 | T-EL-15 | J6 USB-C and 12 V at the same time | no back-feed (VBUS < 5.3 V, +12V unchanged); D13/D3 OR works | |
 | T-EL-16 | J6 USB-C and XIAO USB-C (PC) at the same time | PC enumerates the XIAO; flashing works; no back-feed into the PC beyond Seeed's diode rule | |
+| T-EL-18 | JP3-JP5 bridged, inputs closed | loop current 5.5-6.5 mA at 12 V; R24-R26 < 50 °C | |
 | T-EL-17 | Non-PD USB-C charger and a USB-A to USB-C cable | board powers up (5.1 kΩ CC sink resistors) | |
 
 ## 2. Firmware on hardware
@@ -105,6 +106,15 @@ tester in the result column, and commit the change.
 | T-NK-2 | Physical key from outside with the Nuki mounted | door opens | |
 | T-NK-3 | Enable switch off | access logged as "disabled", no unlatch | |
 | T-NK-4 | Door open (DPS input), access granted | no unlatch, "door already open" | |
+
+## 5b. Doorbell (route chosen in [wiring.md](../hardware/docs/wiring.md#doorbell-optional))
+
+| ID | Test | Expected | Result |
+|---|---|---|---|
+| T-DB-1 | Coupling relay at the bell (electrician): short press (~0.2 s) and long press | relay contact closes on every press; bell rings as before | |
+| T-DB-2 | Route A: battery Zigbee sensor on the relay contact, 20 short presses | 20 notifications (rate limit set to 0 for the test), none missed | |
+| T-DB-3 | Route B: relay contact into J2 BELL (JP4 per contact type) | `doorbell_pulses` +1 per press | |
+| T-DB-4 | Restart HA, Zigbee2MQTT and the sensor | no notification without a press | |
 
 ## 6. Mechanical
 

@@ -74,32 +74,98 @@ contact inputs included, which is handy on the bench or as a fallback. Notes:
   no power on USB alone** (12 V only).
 * For the permanent installation, prefer the UA-Hub LINE 12 V.
 
-## Doorbell (optional, J2 BELL)
+## Doorbell (optional)
 
-If your bell push switches 230 V directly:
+A 230 V bell push only has two wires: live in, and switched live to the bell.
+The bell has two wires too: switched live and neutral. So there is usually
+**no permanent live and neutral** in the same place, and **no 230 V device may
+be connected to AccessBridge**. Any work on the 230 V side must be done by an
+electrician, who also confirms which wire is which (older installations often
+use other colours).
+
+The doorbell is informational only: no route below can unlock the door. The
+Home Assistant blueprint
+[`doorbell-notify.yaml`](../../integrations/home-assistant/automations/doorbell-notify.yaml)
+accepts all of them: the AccessBridge `doorbell_pulses` counter, a binary
+sensor, or an event entity.
+
+### A. Coupling relay at the bell + battery Zigbee contact sensor (recommended)
 
 ```
  230 V L ---[bell push]---+------------- bell (rings as before)
                           |
-                          +--- A1  coupling relay coil 230 V AC (DIN rail, certified,
- 230 V N -----------------+--- A2  installed by an electrician)
-                                 relay contact (dry, NO) ---- 2-wire SELV cable ---- J2 BELL COM / NO
+                          +--- A1  coupling relay coil 230 V AC
+ 230 V N -----------------+--- A2  (small wall box with a DIN rail, next to the bell)
+                                 relay contact (dry) ---- battery Zigbee dry-contact sensor (same box)
 ```
 
-**Recommended relay:** Finder **39.41.8.230.5060** (MasterINPUT, 230 V AC
-coil, 6.2 mm DIN-rail module, gold-plated contact). Any equivalent DIN-rail
-coupling relay works if it has a **230 V AC coil** and **gold-plated
-(AgNi+Au) contacts**. The AccessBridge loop current is only about 3.3 mA at
-12 V, below the minimum switching load of plain silver contacts, so a
-standard power relay can become unreliable over time. Before ordering, check
-the exact contact configuration and the coil-to-contact isolation in the
-datasheet (reinforced isolation preferred). Not tested with AccessBridge yet.
+* The relay coil needs exactly the two wires that already go to the bell, so
+  nothing else has to be pulled.
+* Relay: Finder **39.41.8.230.5060** (MasterINPUT, 230 V AC coil, 6.2 mm,
+  gold-plated contact) or an equivalent certified DIN-rail coupling relay.
+  Check the coil-to-contact isolation in the datasheet (reinforced preferred).
+* Box: any 2-module surface DIN-rail enclosure, for example Kradex Z106
+  (90 x 35 x 65 mm) or Industriegehäuse HS02 35-LP.
+* Sensor: a battery Zigbee sensor with a wired dry-contact input, for example
+  NodOn SDC-4-1-00 (listed in the Zigbee2MQTT device database). Use it in the
+  blueprint as the "doorbell binary sensor".
+* Not tested yet: whether the sensor reports a short press (0.2 s) reliably.
+  Test T-DB-2.
 
-* Only the **dry contact** of the coupling relay is connected to AccessBridge.
-* The coupling relay provides the mains isolation. AccessBridge never sees
-  230 V.
-* For a bell transformer system (8-24 V AC), a coupling relay with a matching
-  low-voltage AC coil can be used in the same way.
+### B. Coupling relay + cable to AccessBridge J2 BELL
+
+The same relay, with its contact wired over a 2-wire SELV cable to J2 BELL
+COM/NO. Use it only if a cable route exists that is separated from the 230 V
+wiring.
+
+* With a **gold-contact** relay, leave JP4 open (about 3.3 mA loop current).
+* With a relay with **plain silver contacts**, bridge **JP4** (about 6 mA, see
+  [Wetting current](#wetting-current-jp3-jp5)).
+* For a bell transformer system (8-24 V AC), use a coupling relay with a
+  matching low-voltage AC coil.
+
+### C. Shelly in the light-switch frame (only after checking on site)
+
+A Shelly needs a permanent live, which a light-switch box usually has. The
+Shelly 1L/2L Gen3 run without neutral (they power themselves through the
+lamp). According to Shelly's documentation, however, their inputs expect a
+push wired between the Shelly's own `Sx` terminal and `S1`/`S2`. They do not
+sense a live wire from another circuit, so they **cannot simply listen to
+the existing bell push**. Using one would mean rewiring so that the Shelly
+switches the bell. The bell would then depend on the Shelly and on the lamp
+being present. Not recommended unless an electrician confirms a clean
+solution.
+
+### D. Vibration sensor on the bell (no wiring)
+
+A battery Zigbee vibration sensor stuck to the bell housing. No electrician is
+needed, but it may miss presses or false-trigger. Use the blueprint's binary
+sensor input.
+
+### Not recommended
+
+* **Shelly i4 / 1 Mini at the bell push:** need neutral and permanent live,
+  which are not there.
+* **Eltako ER61-UC:** no published minimum contact load and no isolation
+  rating for SELV. Its contact can start in either state before the first
+  synchronisation, and a contact that starts closed would hide the first
+  press.
+
+## Wetting current (JP3-JP5)
+
+Each contact input has a solder jumper that adds 1 kΩ (R24-R26, 1206) in
+parallel with its 2.2 kΩ loop resistor:
+
+| Jumper | Input | Open (default) | Bridged |
+|---|---|---|---|
+| JP3 | IN1 relay (J1) | ~3.3 mA | ~6 mA |
+| JP4 | IN2 bell (J2.1/2.2) | ~3.3 mA | ~6 mA |
+| JP5 | IN3 DPS input (J2.3/2.4) | ~3.3 mA | ~6 mA |
+
+Bridge a jumper when the contact is a relay with plain silver contacts (for
+example the UA-Hub relay, if it turns out to be unreliable, or a non-gold
+coupling relay). Leave it open for gold contacts and reed switches. On USB
+power only, the current is about 2 mA bridged instead of 1.1 mA.
 
 ## DPS port (optional, J2 DPS-A / DPS-B)
 

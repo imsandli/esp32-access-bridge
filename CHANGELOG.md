@@ -14,6 +14,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/).
   USB 5 V diode-ORed into the XIAO 5V pin.
 - Board widened to 96 x 56 mm; mounting holes H2/H4 moved to x = 92 mm. All
   Rev A parts kept their positions; Rev A routing kept except around R10/R14/R18.
+- Selectable contact wetting current: solder jumpers JP3-JP5 (open by default)
+  add R24-R26 (1 kΩ, 1206) in parallel with the loop resistors, ~3.3 mA to ~6 mA,
+  for relays with plain silver contacts.
 - ERC/DRC clean (incl. parity).
 
 ### Enclosure (new)
@@ -47,6 +50,11 @@ The format follows [Keep a Changelog](https://keepachangelog.com/).
 
 ### Integrations
 
+- Doorbell blueprint accepts the AccessBridge counter, an event entity (e.g. a
+  Shelly input) or a binary sensor (e.g. a battery Zigbee contact sensor on a
+  coupling relay); 3 new behaviour tests.
+- Doorbell wiring options for 230 V installations without neutral at the bell
+  push documented (coupling relay at the bell).
 - Home Assistant blueprints: Nuki unlatch with counter/freshness/cooldown/enable/door
   gates and failure logging; doorbell notification.
 - Behaviour tests on a real HA core; CI workflows for hardware, firmware,

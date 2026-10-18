@@ -11,7 +11,7 @@ part of the normal workflow; edit `hardware/kicad/*` in KiCad.
 | `sexpr.py` | Minimal S-expression reader/writer |
 | `route_pcb.sh` | Runs the whole pipeline in Docker (`kicad/kicad:9.0.9`) with Freerouting 2.1.0 |
 | `routing/accessbridge-revA.ses` | The Freerouting result used for Rev A |
-| `routing/revB/*.ses` | The two incremental Freerouting passes for Rev B (new connections only) |
+| `routing/revB/*.ses` | The incremental Freerouting passes for Rev B (new connections only) |
 
 Freerouting 2.1.0 is **not deterministic**, and its multi-threaded optimizer
 occasionally produced broken connections. `route_pcb.sh` therefore runs it
@@ -37,3 +37,6 @@ SES=hardware/tools/routing/accessbridge-revA.ses hardware/tools/route_pcb.sh
    as `type fix` and kept by KiCad's SES import. One connection (IN3_A at R18)
    needed a second pass after ripping up the tracks within 4 mm of R18.
 5. `clean`, `finish` (pours, dimensions), then DRC: 0 violations, 0 unconnected.
+6. Later Rev B addition (before manufacturing): JP3-JP5 + R24-R26 (wetting
+   current). Same flow; the nets V_LOOP, IN1_A-IN3_A and IN2_SIG were ripped up
+   and rerouted (`routing/revB/pass3-wetting-jumpers.ses`).

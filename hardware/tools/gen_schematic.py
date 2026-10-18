@@ -210,7 +210,7 @@ def main():
         if c["note"]:
             props.append(("Note", c["note"], True))
         sym = instance(ref, lib_id, x, y, rot, props, c["pins"], dnp=c["dnp"],
-                       in_bom=c["part"] not in ("MH", "SJ3"))
+                       in_bom=c["part"] not in ("MH", "SJ3", "SJ2"))
         stacked = {}  # pins at the same position (e.g. USB-C VBUS A9/B9) get one stub
         for p in symbol_pins(sym):
             net = c["pins"].get(p["num"])

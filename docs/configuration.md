@@ -33,6 +33,7 @@ After adding or removing entities, re-pair the device (see
 | Option | How |
 |---|---|
 | DPS port input/output | JP1 + JP2: 1-2 = input (default), 2-3 = SSR output |
+| Contact wetting current | JP3/JP4/JP5 open = ~3.3 mA (default), bridged = ~6 mA for silver-contact relays |
 | OUT current > 100 mA | Not recommended (power budget). Replace F1 with a 300 mA hold PTC and stay below the 330 mA LINE limit in total. |
 | Qwiic | 3.3 V I2C on GPIO22/23, 4.7 kΩ pull-ups fitted. No firmware support in FW-1.0.0. |
 

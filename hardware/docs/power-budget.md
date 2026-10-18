@@ -17,7 +17,7 @@ measured on site (see [wiring.md](wiring.md)).
 | PWR LED D4 | 5 V | 3 mA | 3 mA | (5 V - 2 V) / 1 kΩ |
 | Status LED D5 | 3.3 V | 0.5 mA avg | 1.5 mA | (3.3 V - 1.8 V) / 1 kΩ, mostly off |
 | Pull-ups and SSR LED | 3.3 V | 1 mA | 5 mA | SSR LED (3.3 - 1.2 V) / 470 Ω = 4.5 mA when on |
-| Contact loops (3x) | 12 V | 0 mA (open) | 10 mA | (12 - 0.35 - 1.2 V) / 3.2 kΩ = 3.3 mA each when closed |
+| Contact loops (3x) | 12 V | 0 mA (open) | 18 mA | (12 - 0.35 - 1.2 V) / 3.2 kΩ = 3.3 mA each when closed; ~6 mA each with JP3-JP5 bridged |
 | Open-drain output load | 12 V | 0 | 100 mA | Design limit for J4 |
 
 ## Conversion to the 12 V input
@@ -31,9 +31,9 @@ D3. The XIAO's own LDO makes 3.3 V from that, so the 3.3 V loads are drawn from
 |---|---|---|
 | 5 V side (XIAO + LEDs + 3.3 V loads) | ~45 mA = 0.23 W | ~160 mA = 0.80 W |
 | 12 V input for that (eff. 85 %) | ~22 mA | ~80 mA |
-| + contact loops | 0 | 10 mA |
+| + contact loops | 0 | 18 mA |
 | + OUT load | 0 | 100 mA |
-| **Total at 12 V** | **~25 mA (0.3 W)** | **~190 mA (2.3 W)** |
+| **Total at 12 V** | **~25 mA (0.3 W)** | **~200 mA (2.4 W)** |
 | UA-Hub LINE limit | 330 mA (3.96 W) | 330 mA (3.96 W) |
 | Margin | > 90 % | ~40 % |
 
@@ -52,8 +52,17 @@ the 330 mA LINE limit.
 | D16 SS14 into `V_LOOP` | loop current (5 - 0.35 - 1.2 V) / 3.2 kΩ, about 1.1 mA per closed input |
 | Total on USB (worst case, no OUT) | about 170 mA |
 
+With JP3-JP5 bridged, about 2 mA per closed input on USB.
+
 With an EL357N CTR of 100 % or more, the optocouplers still sink more than
 1 mA against the 0.33 mA the 10 kΩ pull-ups need. Not measured yet: test T-EL-14.
+
+## Wetting-current jumpers (JP3-JP5)
+
+| Case | Current | Dissipation |
+|---|---|---|
+| Normal, bridged | (11.4 - 1.2 V) / (2.2k ∥ 1k + 1k) = ~6 mA | R24-R26: 17 mW (1206, 250 mW); field 1 kΩ: 36 mW (0603, 100 mW) |
+| Wiring fault: COM shorted to GND, bridged | ~15 mA | R24-R26: 104 mW (42 %); R10/R14/R18: 47 mW (47 %); EL357N LED 15 mA (max. 50 mA) |
 
 ## Voltage drops
 

@@ -7,11 +7,11 @@ create the automation.
 | File | Type | Purpose |
 |---|---|---|
 | [automations/nuki-unlock.yaml](automations/nuki-unlock.yaml) | Automation blueprint | Unlatch/unlock the Nuki on a new, authorized UA-Hub pulse |
-| [automations/doorbell-notify.yaml](automations/doorbell-notify.yaml) | Automation blueprint | Your notification actions on a new doorbell press |
+| [automations/doorbell-notify.yaml](automations/doorbell-notify.yaml) | Automation blueprint | Your notification actions on a new doorbell press, from the AccessBridge counter, an event entity or a binary sensor |
 | [examples/contact-monitoring.yaml](examples/contact-monitoring.yaml) | Package | Enable switch for unlatching, link-problem sensor and log entry |
 
 Status: validated with Home Assistant **2026.2.3** (`check_config`) and covered
-by 12 behaviour tests (see below). **Not tested with a real Nuki.**
+by 15 behaviour tests (see below). **Not tested with a real Nuki.**
 
 ## Install
 
@@ -59,11 +59,13 @@ cd integrations/home-assistant
 python3 -m venv .venv && . .venv/bin/activate
 pip install -r requirements-test.txt
 tests/check_config.sh      # Home Assistant's own config validation
-pytest -q                  # 12 behaviour tests on a real HA core
+pytest -q                  # 15 behaviour tests on a real HA core
 ```
 
 The behaviour tests (`tests/test_blueprints.py`) cover: new pulse to unlatch
 and confirmation, restored state, device reboot (and a pulse right after it),
 counter jump, stale pulse, cooldown, enable switch, open door, unconfirmed
 unlatch logged as an error, unlock-only mode, contact state alone, and the
-doorbell (once per press, rate limit, restore).
+doorbell with each source (AccessBridge counter, event entity such as a
+Shelly input, binary sensor such as a battery Zigbee contact sensor): once per
+press, event-type filter, rate limit, restore and reconnect ignored.

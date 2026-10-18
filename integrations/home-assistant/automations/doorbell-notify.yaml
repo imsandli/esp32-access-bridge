@@ -1,20 +1,51 @@
 blueprint:
   name: AccessBridge - doorbell notification
   description: >
-    Runs your notification actions when the AccessBridge reports a NEW doorbell
-    press (`doorbell_pulses` rose by exactly 1). Restored states, device reboots
-    and repeated presses within the rate limit are ignored. The doorbell input
-    is informational only: never use it to unlock anything.
+    Runs your notification actions on a NEW doorbell press. Choose one or more
+    sources: the AccessBridge `doorbell_pulses` counter (counts when it rises
+    by exactly 1), an event entity (for example a Shelly button input; counts
+    each new event), or a binary sensor (for example a battery Zigbee contact
+    sensor on a coupling relay; counts each off-to-on change). Restored states,
+    device reboots, reconnects and repeated presses within the rate limit are
+    ignored. The doorbell is informational only: never use it to unlock
+    anything.
   domain: automation
   source_url: https://github.com/imsandli/esp32-access-bridge/blob/main/integrations/home-assistant/automations/doorbell-notify.yaml
   input:
     pulse_counter:
       name: Doorbell pulse counter
-      description: The AccessBridge `doorbell_pulses` sensor (from Zigbee2MQTT).
+      description: The AccessBridge `doorbell_pulses` sensor (from Zigbee2MQTT). Leave empty if you use another source.
+      default: []
       selector:
         entity:
+          multiple: true
           filter:
             - domain: sensor
+    press_event:
+      name: Doorbell event entity
+      description: An event entity that fires on a press, for example a Shelly input in button mode.
+      default: []
+      selector:
+        entity:
+          multiple: true
+          filter:
+            - domain: event
+    event_types:
+      name: Event types
+      description: Only count these event types (for example `single_push`). Empty counts every event.
+      default: []
+      selector:
+        text:
+          multiple: true
+    press_sensor:
+      name: Doorbell binary sensor
+      description: A binary sensor that turns on while the bell is pressed, for example a Zigbee dry-contact sensor.
+      default: []
+      selector:
+        entity:
+          multiple: true
+          filter:
+            - domain: binary_sensor
     rate_limit:
       name: Rate limit
       description: Minimum time between two notifications.
@@ -37,17 +68,34 @@ max_exceeded: silent
 
 triggers:
   - trigger: state
+    id: counter
     entity_id: !input pulse_counter
+  - trigger: state
+    id: event
+    entity_id: !input press_event
+  - trigger: state
+    id: contact
+    entity_id: !input press_sensor
 
 variables:
   rate_limit_s: !input rate_limit
+  event_types: !input event_types
   old: "{{ trigger.from_state.state if trigger.from_state is not none else 'none' }}"
   new: "{{ trigger.to_state.state if trigger.to_state is not none else 'none' }}"
+  invalid: ["none", "unknown", "unavailable", ""]
 
 conditions:
   - condition: template
     value_template: >
-      {{ old | is_number and new | is_number and (new | int(-1)) == (old | int(-1)) + 1 }}
+      {% if trigger.id == 'counter' %}
+        {{ old | is_number and new | is_number and (new | int(-1)) == (old | int(-1)) + 1 }}
+      {% elif trigger.id == 'event' %}
+        {{ old not in invalid and new not in invalid and old != new and
+           (event_types | length == 0 or
+            trigger.to_state.attributes.get('event_type') in event_types) }}
+      {% else %}
+        {{ old == 'off' and new == 'on' }}
+      {% endif %}
   - condition: template
     value_template: >
       {{ this.attributes.last_triggered is none or
@@ -57,6 +105,6 @@ actions:
   - action: logbook.log
     data:
       name: AccessBridge
-      message: "doorbell press {{ new }}"
+      message: "doorbell press ({{ trigger.entity_id }})"
   - choose: []
     default: !input notify_actions

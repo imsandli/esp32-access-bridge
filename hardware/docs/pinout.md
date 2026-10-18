@@ -60,3 +60,14 @@ The pinout is also printed on the back silkscreen.
 | cut 1-2, solder 2-3 on **both** jumpers | DPS **output**: U6 PhotoMOS contact between DPS-A and DPS-B | remove `door-position.yaml` (output control planned for FW-1.1.0) |
 
 Never bridge 1-2-3 together.
+
+## Solder jumpers (wetting current, Rev B)
+
+| Jumper | Input | Open (**default**) | Bridged |
+|---|---|---|---|
+| JP3 | IN1 (J1 relay) | ~3.3 mA loop current | ~6 mA (R24 1 kΩ parallel to R10) |
+| JP4 | IN2 (J2 bell) | ~3.3 mA | ~6 mA (R25 parallel to R14) |
+| JP5 | IN3 (J2 DPS input) | ~3.3 mA | ~6 mA (R26 parallel to R18) |
+
+Bridge one for relays with plain silver contacts. See
+[wiring.md](wiring.md#wetting-current-jp3-jp5).

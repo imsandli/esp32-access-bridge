@@ -108,6 +108,7 @@ system log ("FAILED or was not confirmed").
 | HA or Zigbee2MQTT down | No action. After restart, restored states are ignored. | Fails closed |
 | Nuki offline | The unlatch call fails and an error is logged. | Fails closed |
 | Relay contact welded closed | One pulse at most, then no new edges. | Fails closed after one event |
+| Doorbell sensor (any source) faked or stuck | Wrong or missing notifications only. The doorbell is never linked to the lock (A8). | Safe |
 | Wire pair shorted by an attacker | **Door opens** (after the gates). | **Not protected.** Physical security of the wiring is required. |
 | Zigbee/MQTT/HA compromised | An attacker can open the lock. | **Not protected.** Secure the infrastructure. |
 | DPS output mode (FW-1.1.0, planned) | HA could fake "door closed" toward the UA-Hub and suppress UniFi "door forced/held open" alarms. | Accept knowingly. On power or Zigbee loss the SSR opens, so the hub sees "open" (fails loudly). |

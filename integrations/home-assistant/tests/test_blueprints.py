@@ -225,3 +225,82 @@ async def test_doorbell_notifies_once_per_press(hass, env, freezer):
     await hass.async_block_till_done()
     assert len(env["notify"]) == 1
     assert not env["open"]
+
+
+BELL_EVENT = "event.shelly_doorbell_input_1"
+BELL_CONTACT = "binary_sensor.doorbell_contact"
+
+
+async def setup_bell(hass, **inputs):
+    inputs.setdefault("notify_actions", [{"action": "notify.test", "data": {"message": "ding"}}])
+    assert await async_setup_component(
+        hass,
+        "automation",
+        {"automation": {"id": "bell", "alias": "bell", "use_blueprint": {
+            "path": "accessbridge/doorbell-notify.yaml", "input": inputs}}},
+    )
+    await hass.async_block_till_done()
+
+
+def fire_event(hass, when, event_type="single_push"):
+    hass.states.async_set(BELL_EVENT, when.isoformat(timespec="milliseconds"),
+                          {"event_type": event_type, "event_types": ["single_push", "long_push"]})
+
+
+async def test_doorbell_event_entity_notifies_once_per_press(hass, env, freezer):
+    hass.states.async_set(BELL_EVENT, "unknown")
+    await setup_bell(hass, press_event=[BELL_EVENT], event_types=["single_push"])
+    fire_event(hass, dt_util.utcnow())  # first event after "unknown": not counted
+    await settle(hass)
+    assert not env["notify"]
+    freezer.tick(timedelta(seconds=60))
+    fire_event(hass, dt_util.utcnow())
+    await settle(hass)
+    assert len(env["notify"]) == 1
+    freezer.tick(timedelta(seconds=60))
+    fire_event(hass, dt_util.utcnow(), event_type="long_push")  # filtered out
+    await settle(hass)
+    assert len(env["notify"]) == 1
+    freezer.tick(timedelta(seconds=60))
+    last = dt_util.utcnow()
+    hass.states.async_set(BELL_EVENT, "unavailable")  # Shelly reconnects
+    await settle(hass)
+    fire_event(hass, last)  # restored last event, not a press
+    await settle(hass)
+    assert len(env["notify"]) == 1
+    assert not env["open"]
+
+
+async def test_doorbell_binary_sensor_counts_off_to_on(hass, env, freezer):
+    hass.states.async_set(BELL_CONTACT, "off")
+    await setup_bell(hass, press_sensor=[BELL_CONTACT])
+    hass.states.async_set(BELL_CONTACT, "on")
+    await settle(hass)
+    assert len(env["notify"]) == 1
+    hass.states.async_set(BELL_CONTACT, "off")
+    freezer.tick(timedelta(seconds=5))
+    hass.states.async_set(BELL_CONTACT, "on")  # within rate limit
+    await settle(hass)
+    assert len(env["notify"]) == 1
+    freezer.tick(timedelta(seconds=60))
+    hass.states.async_set(BELL_CONTACT, "unavailable")
+    await settle(hass)
+    hass.states.async_set(BELL_CONTACT, "on")  # restore, not a press
+    await settle(hass)
+    assert len(env["notify"]) == 1
+    hass.states.async_set(BELL_CONTACT, "off")
+    freezer.tick(timedelta(seconds=60))
+    hass.states.async_set(BELL_CONTACT, "on")
+    await settle(hass)
+    assert len(env["notify"]) == 2
+
+
+async def test_doorbell_counter_and_event_together(hass, env, freezer):
+    hass.states.async_set(BELL_EVENT, dt_util.utcnow().isoformat(), {"event_type": "single_push"})
+    await setup_bell(hass, pulse_counter=[BELL], press_event=[BELL_EVENT], rate_limit=0)
+    hass.states.async_set(BELL, "1")
+    await settle(hass)
+    freezer.tick(timedelta(seconds=1))
+    fire_event(hass, dt_util.utcnow())
+    await settle(hass)
+    assert len(env["notify"]) == 2

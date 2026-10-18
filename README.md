@@ -46,7 +46,10 @@ flowchart LR
 * Power from the UA-Hub 12 V **or** a USB-C charger (J6, power only; the whole
   board including the contact inputs runs on USB for bench tests). Firmware is
   flashed through the XIAO's own USB-C, next to J6 on the same edge.
-* Optional: doorbell input (230 V bells via a certified coupling relay), a
+* Optional: doorbell input (230 V bells via a certified coupling relay; the
+  doorbell blueprint also accepts other sensors, see
+  [wiring](hardware/docs/wiring.md#doorbell-optional)), selectable contact
+  wetting current (JP3-JP5), a
   door-position (DPS) port that works as an input or as an isolated contact
   output, a 12 V open-drain output, and a Qwiic I2C port.
 
@@ -70,7 +73,7 @@ More detail: [docs/architecture.md](docs/architecture.md).
 | Statically checked (ERC, DRC with parity, ESPHome config, HA check_config) | **yes** |
 | Enclosure fit-checked against the PCB STEP (CI) | **yes** |
 | Firmware compiled (CI) | **yes** |
-| Software-tested (HA blueprint behaviour tests, 12/12) | **yes** |
+| Software-tested (HA blueprint behaviour tests, 15/15) | **yes** |
 | Electrically tested | no |
 | Tested with Zigbee2MQTT | no |
 | Tested with a real UA-Hub | no |
@@ -90,7 +93,7 @@ Test plan and record: [docs/testing.md](docs/testing.md).
 | 6 | Fabrication data and BOM | done: Gerber ZIP, drill, JLCPCB BOM/CPL (reproducible, checked in CI) |
 | 7 | Firmware implemented and compiled | done (ESPHome 2026.9.1, CI) |
 | 8 | Zigbee2MQTT compatibility test | open: needs hardware |
-| 9 | Home Assistant example | done (blueprints, check_config, 12 behaviour tests) |
+| 9 | Home Assistant example | done (blueprints, check_config, 15 behaviour tests) |
 | 10 | Security tests | documented; software part done; hardware part open |
 | 11 | Enclosure and mounting check | 3D-printable case (DIN-rail and wall variants) designed and fit-checked against the PCB STEP in CI; not printed yet. Hammond 1591XXD documented as alternative |
 | 12 | Release artifacts | workflow ready; first release after the hardware tests |

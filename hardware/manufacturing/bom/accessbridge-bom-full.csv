@@ -28,6 +28,7 @@
 "R8","470","Resistor_SMD:R_0603_1608Metric","generic","0603 470R 1% thick film","","unverified","1",""
 "R10,R14,R18","2.2k","Resistor_SMD:R_0603_1608Metric","UNI-ROYAL","0603WAF2201T5E","C4190","secondary","3",""
 "R22,R23","5.1k","Resistor_SMD:R_0603_1608Metric","UNI-ROYAL","0603WAF5101T5E","C23186","confirmed","2",""
+"R24,R25,R26","1k","Resistor_SMD:R_1206_3216Metric","UNI-ROYAL","1206W4F1001T5E","C4410","confirmed","3",""
 "SW1","PAIR","Button_Switch_SMD:SW_Push_1P1T_XKB_TS-1187A","XKB","TS-1187A-B-A-B","C318884","confirmed","1",""
 "U1","AP63205WU-7","Package_TO_SOT_SMD:TSOT-23-6","Diodes Inc.","AP63205WU-7","C2071056","confirmed","1",""
 "U2","XIAO_ESP32C6","AccessBridge:XIAO_ESP32C6_Socketed","Seeed Studio","113991254 (module) + 2x female header 1x7 2.54 mm","","manual","1",""
