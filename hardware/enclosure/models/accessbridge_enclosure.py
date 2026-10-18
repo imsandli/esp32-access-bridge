@@ -61,7 +61,11 @@ BUTTON_TOP = PCB_Z + PCB_T + 1.5               # TS-1187A, 1.5 mm actuator heigh
 BW, BH = design.BOARD_W, design.BOARD_H
 IN_X0, IN_X1 = -SIDE_ROOM, BW + SIDE_ROOM
 IN_Y0, IN_Y1 = GAP, -(BH + WIRING_ROOM)        # top / bottom inner wall
-TOP_Z = max(XIAO_TOP, TERMINAL_TOP) + LID_CLEARANCE   # inner lid surface
+# M16 x 1.5 lock nut across corners: SW 22 (e.g. Delock 60615) = 25.4 mm; it must
+# turn freely between floor and lid, so it can also set the inner height
+GLAND_NUT_D = 25.5
+TOP_Z = max(max(XIAO_TOP, TERMINAL_TOP) + LID_CLEARANCE,   # inner lid surface
+            FLOOR + GLAND_NUT_D + 0.6)
 OUT_X0, OUT_X1 = IN_X0 - WALL, IN_X1 + WALL
 OUT_Y0, OUT_Y1 = IN_Y0 + WALL, IN_Y1 - WALL
 
@@ -83,7 +87,6 @@ STANDOFF_D = 7.0
 
 # cable entry: M16 x 1.5 gland in the terminal wall, strain-relief clamp inside
 GLAND_D = 16.3
-GLAND_NUT_D = 24.0    # M16 x 1.5 lock nut across corners (typical)
 GLAND_X = 34.0
 GLAND_Z = FLOOR + (TOP_Z - FLOOR) / 2
 CLAMP_POSTS = [(GLAND_X - 13.0, IN_Y1 + 9.0), (GLAND_X + 13.0, IN_Y1 + 9.0)]

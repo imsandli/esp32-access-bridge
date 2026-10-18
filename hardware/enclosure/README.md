@@ -13,8 +13,8 @@ Two options:
 |---|---|---|
 | Base part | `models/accessbridge-enclosure-base-din.stl` | `models/accessbridge-enclosure-base-wall.stl` |
 | Mounting | integrated TS35 clip (fixed hook + spring latch, screwdriver release slot). Sits next to the UA-Hub on the same rail | 2 flanges with 4.5 x 8 mm slots (4 mm wood screws or M4). The box can be mounted with the lid closed |
-| Outside (without clip/flanges) | 118.8 x 81.4 x 29.7 mm | 118.8 x 81.4 x 29.7 mm |
-| Overall | 118.8 x 81.4 x 35.6 mm (clip adds ~6 mm on the back) | 140.8 x 81.4 x 29.7 mm |
+| Outside (without clip/flanges) | 118.8 x 81.4 x 30.9 mm | 118.8 x 81.4 x 30.9 mm |
+| Overall | 118.8 x 81.4 x 36.8 mm (clip adds ~6 mm on the back) | 140.8 x 81.4 x 30.9 mm |
 | Preview | [underside](drawings/enclosure-base-din-underside.png) | [top](drawings/enclosure-base-wall.png), [underside](drawings/enclosure-base-wall-underside.png) |
 
 Shared parts:
@@ -86,11 +86,13 @@ print (tests T-ME-4 to T-ME-6 in [docs/testing.md](../../docs/testing.md)).
 
 | Qty | Part |
 |---|---|
-| 10 | M3 brass heat-set inserts, Ø4.0 x 5.7 mm (4 lid, 4 PCB, 2 clamp) |
-| 4 | M3 x 8 cylinder-head screws (PCB) |
-| 4 | M3 x 10 cylinder-head screws (lid) |
-| 2 | M3 x 12 screws (clamp bar) |
-| 1 | M16 x 1.5 nylon cable gland, IP54+, clamping range for your cable (e.g. 4-8 mm), with lock nut |
+| 10 | M3 brass heat-set inserts for a **Ø4.0 mm** hole, 5.7 mm long, e.g. ruthex RX-M3x5.7 (4 lid, 4 PCB, 2 clamp). Not the 5 mm wide "VORON" M3x5x4 type |
+| 4 | M3 x 8 cylinder-head screws, DIN 912 / ISO 4762 (PCB) |
+| 4 | M3 x 10 cylinder-head screws, DIN 912 / ISO 4762 (lid) |
+| 2 | M3 x 12 cylinder-head screws (clamp bar) |
+| 1 | M16 x 1.5 nylon cable gland, IP54+, clamping range for your cable (e.g. 4-8 mm), with lock nut up to SW 22 (e.g. Delock 60615) |
+
+Not suitable: self-tapping "fan screws" (they don't thread into the inserts).
 | (wall variant) 2 | 4 mm wood screws + plugs, or M4 |
 
 Assembly: press the inserts in with a soldering iron (about 220-240 °C for
