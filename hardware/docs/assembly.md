@@ -12,8 +12,6 @@
    * Lines marked "C-number from secondary source: verify" in the Note
      column: check that the matched part has the listed value, package and
      voltage.
-   * **R8 (470 Ω 0603)** has no confirmed LCSC number. Pick any 470 Ω 1 %
-     0603 basic resistor.
    * Check stock. Every LCSC number was taken from search results during
      design (2026-10); availability changes.
 5. **Check the rotation preview** for U1 (TSOT-23-6), U3-U6 (SO-4/SOP-4),

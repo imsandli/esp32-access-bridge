@@ -27,7 +27,7 @@ P = {
     "R1k1206": ("Device:R", "1k", "Resistor_SMD:R_1206_3216Metric", "UNI-ROYAL", "1206W4F1001T5E", "C4410", "confirmed"),
     "R2k2": ("Device:R", "2.2k", "Resistor_SMD:R_0603_1608Metric", "UNI-ROYAL", "0603WAF2201T5E", "C4190", "secondary"),
     "R100": ("Device:R", "100", "Resistor_SMD:R_0603_1608Metric", "UNI-ROYAL", "0603WAF1000T5E", "C22775", "secondary"),
-    "R470": ("Device:R", "470", "Resistor_SMD:R_0603_1608Metric", "generic", "0603 470R 1% thick film", "", "unverified"),
+    "R470": ("Device:R", "470", "Resistor_SMD:R_0603_1608Metric", "UNI-ROYAL", "0603WAF4700T5E", "C23179", "confirmed"),
     "C100n": ("Device:C", "100n", "Capacitor_SMD:C_0603_1608Metric", "YAGEO", "CC0603KRX7R9BB104", "C14663", "confirmed"),
     "C10n": ("Device:C", "10n", "Capacitor_SMD:C_0603_1608Metric", "FH", "0603B103K500NT", "C57112", "confirmed"),
     "C10u50": ("Device:C", "10u/50V", "Capacitor_SMD:C_1206_3216Metric", "Samsung", "CL31A106KBHNNNE", "C13585", "secondary"),

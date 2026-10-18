@@ -25,7 +25,7 @@
 "R3,R7,R9,R12,R16,R20","10k","Resistor_SMD:R_0603_1608Metric","UNI-ROYAL","0603WAF1002T5E","C25804","confirmed","6",""
 "R4,R5","4.7k","Resistor_SMD:R_0603_1608Metric","UNI-ROYAL","0603WAF4701T5E","C23162","confirmed","2",""
 "R6","100","Resistor_SMD:R_0603_1608Metric","UNI-ROYAL","0603WAF1000T5E","C22775","secondary","1",""
-"R8","470","Resistor_SMD:R_0603_1608Metric","generic","0603 470R 1% thick film","","unverified","1",""
+"R8","470","Resistor_SMD:R_0603_1608Metric","UNI-ROYAL","0603WAF4700T5E","C23179","confirmed","1",""
 "R10,R14,R18","2.2k","Resistor_SMD:R_0603_1608Metric","UNI-ROYAL","0603WAF2201T5E","C4190","secondary","3",""
 "R22,R23","5.1k","Resistor_SMD:R_0603_1608Metric","UNI-ROYAL","0603WAF5101T5E","C23186","confirmed","2",""
 "R24,R25,R26","1k","Resistor_SMD:R_1206_3216Metric","UNI-ROYAL","1206W4F1001T5E","C4410","confirmed","3",""

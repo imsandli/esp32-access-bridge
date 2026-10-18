@@ -44,7 +44,6 @@ Taken from the `LCSC status` column of the full BOM:
   design (2026-10).
 * **secondary**: the part number comes from a third-party JLCPCB basic-parts
   list. Verify value/voltage when ordering.
-* **unverified**: no number found (R8, 470 Ω 0603). Select at order time.
 * **manual**: not machine assembled.
 
 Stock and prices were **not** checked live: LCSC/JLCPCB were not reachable

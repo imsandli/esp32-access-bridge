@@ -18280,7 +18280,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "0603 470R 1% thick film"
+		(property "MPN" "0603WAF4700T5E"
 			(at 243.84 200.66 0)
 			(effects
 				(font
@@ -18289,7 +18289,7 @@
 				(hide yes)
 			)
 		)
-		(property "Manufacturer" "generic"
+		(property "Manufacturer" "UNI-ROYAL"
 			(at 243.84 200.66 0)
 			(effects
 				(font
@@ -18298,7 +18298,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" ""
+		(property "LCSC" "C23179"
 			(at 243.84 200.66 0)
 			(effects
 				(font
@@ -18307,7 +18307,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC_Status" "unverified"
+		(property "LCSC_Status" "confirmed"
 			(at 243.84 200.66 0)
 			(effects
 				(font
