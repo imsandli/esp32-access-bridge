@@ -81,10 +81,19 @@ If your bell push switches 230 V directly:
 ```
  230 V L ---[bell push]---+------------- bell (rings as before)
                           |
-                          +--- A1  coupling relay coil 230 V AC (e.g. Finder 38.51 / 34.51 series,
- 230 V N -----------------+--- A2  DIN rail, certified, installed by an electrician)
-                                 relay contact 11/14 (dry) ---- 2-wire SELV cable ---- J2 BELL COM / NO
+                          +--- A1  coupling relay coil 230 V AC (DIN rail, certified,
+ 230 V N -----------------+--- A2  installed by an electrician)
+                                 relay contact (dry, NO) ---- 2-wire SELV cable ---- J2 BELL COM / NO
 ```
+
+**Recommended relay:** Finder **39.41.8.230.5060** (MasterINPUT, 230 V AC
+coil, 6.2 mm DIN-rail module, gold-plated contact). Any equivalent DIN-rail
+coupling relay works if it has a **230 V AC coil** and **gold-plated
+(AgNi+Au) contacts**. The AccessBridge loop current is only about 3.3 mA at
+12 V, below the minimum switching load of plain silver contacts, so a
+standard power relay can become unreliable over time. Before ordering, check
+the exact contact configuration and the coil-to-contact isolation in the
+datasheet (reinforced isolation preferred). Not tested with AccessBridge yet.
 
 * Only the **dry contact** of the coupling relay is connected to AccessBridge.
 * The coupling relay provides the mains isolation. AccessBridge never sees
