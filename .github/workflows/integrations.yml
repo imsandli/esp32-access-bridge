@@ -1,0 +1,31 @@
+name: integrations
+
+on:
+  push:
+    branches: ["**"]
+    paths: ["integrations/**", ".github/workflows/integrations.yml"]
+  pull_request:
+    paths: ["integrations/**", ".github/workflows/integrations.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  home-assistant:
+    name: Home Assistant blueprints (check_config + behaviour tests)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+      - name: Install pinned Home Assistant test environment
+        run: pip install -r integrations/home-assistant/requirements-test.txt
+      - name: check_config
+        run: integrations/home-assistant/tests/check_config.sh
+      - name: Behaviour tests
+        working-directory: integrations/home-assistant
+        run: |
+          pytest -q -p no:cacheprovider | tee /tmp/pytest.txt
+          echo "::notice title=Blueprint tests::$(tail -n 1 /tmp/pytest.txt)"

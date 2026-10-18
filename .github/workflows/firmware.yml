@@ -20,9 +20,9 @@ jobs:
     name: ESPHome validate + compile
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.13"
 
@@ -59,6 +59,7 @@ jobs:
           ls -la build/firmware
           test -n "$(ls build/firmware/*-factory.bin)"
           (cd build/firmware && sha256sum *.bin > SHA256SUMS)
+          echo "::notice title=Firmware FW-${FW}::$(cd build/firmware && for f in *.bin; do printf '%s %s bytes; ' "$f" "$(stat -c %s "$f")"; done)"
 
       - name: Upload binaries
         uses: actions/upload-artifact@v4

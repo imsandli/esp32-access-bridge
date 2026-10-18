@@ -1,0 +1,24 @@
+homeassistant:
+  name: test
+  packages: !include_dir_named packages
+automation:
+  - id: t_unlock
+    alias: test unlock
+    use_blueprint:
+      path: accessbridge/nuki-unlock.yaml
+      input:
+        pulse_counter: sensor.accessbridge_relay_pulses
+        relay_contact: binary_sensor.accessbridge_relay_contact
+        lock_entity: lock.front_door
+        enable_entity: input_boolean.accessbridge_unlatch_enabled
+        door_entity: binary_sensor.accessbridge_door_closed
+  - id: t_bell
+    alias: test bell
+    use_blueprint:
+      path: accessbridge/doorbell-notify.yaml
+      input:
+        pulse_counter: sensor.accessbridge_doorbell_pulses
+        notify_actions:
+          - action: persistent_notification.create
+            data:
+              message: Doorbell

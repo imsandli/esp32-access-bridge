@@ -10,7 +10,7 @@ blueprint:
 
     1. the counter rose by exactly 1 from a known numeric value (ignores HA
        restarts, restored states, `unavailable`/`unknown`, device reboots
-       (counter resets to 0) and gaps of more than one pulse);
+       (counter resets to 0) and jumps of more than one pulse);
 
     2. the relay contact is closed now or changed within the freshness window
        (blocks late deliveries after a Zigbee outage);
@@ -140,11 +140,13 @@ variables:
   door_ok: "{{ door_entity == '' or not is_state(door_entity, 'off') }}"
 
 conditions:
-  # A counter decrease is a device reboot; it is expected and not an error.
+  # Only counter INCREASES between two known numbers start a run. Restores
+  # (unavailable/unknown -> n) and device reboots (counter drops to 0) end
+  # here silently and do not touch the cooldown.
   - condition: template
     value_template: "{{ old | is_number and new | is_number }}"
   - condition: template
-    value_template: "{{ new | int(-1) != old | int(-1) }}"
+    value_template: "{{ new | int(-1) > old | int(-1) }}"
 
 actions:
   - choose:
@@ -152,13 +154,12 @@ actions:
           - condition: template
             value_template: "{{ not is_new_pulse }}"
         sequence:
-          - action: logbook.log
+          - action: system_log.write
             data:
-              name: AccessBridge
+              level: warning
+              logger: accessbridge
               message: >
-                ignored counter change {{ old }} -> {{ new }}
-                ({{ 'device reboot' if (new | int(0)) < (old | int(0)) else 'gap of more than one pulse' }})
-              entity_id: "{{ counter_entity }}"
+                counter jumped {{ old }} -> {{ new }} (missed reports?): ignored, nothing opened
           - stop: not a single new pulse
       - conditions:
           - condition: template
