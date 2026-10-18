@@ -104,11 +104,13 @@ sensor, or an event entity.
 * Relay: Finder **39.41.8.230.5060** (MasterINPUT, 230 V AC coil, 6.2 mm,
   gold-plated contact) or an equivalent certified DIN-rail coupling relay.
   Check the coil-to-contact isolation in the datasheet (reinforced preferred).
-* Box: any 2-module surface DIN-rail enclosure, for example Kradex Z106
-  (90 x 35 x 65 mm) or Industriegehäuse HS02 35-LP.
+* Box: a small surface-mount distribution box with a DIN rail (2-4 modules),
+  for example Hager Vector VE103D (IP65, 3 modules, 110 x 175 mm, clear door).
 * Sensor: a battery Zigbee sensor with a wired dry-contact input, for example
   NodOn SDC-4-1-00 (listed in the Zigbee2MQTT device database). Use it in the
-  blueprint as the "doorbell binary sensor".
+  blueprint as the "doorbell binary sensor". It is solar powered with a CR2032
+  backup cell: inside a box it runs on the cell, so insert one (about 3 years
+  per the spec sheet). A clear-door box at a lit spot helps.
 * Not tested yet: whether the sensor reports a short press (0.2 s) reliably.
   Test T-DB-2.
 
