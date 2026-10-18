@@ -17,9 +17,11 @@
 5. **Check the rotation preview** for U1 (TSOT-23-6), U3-U6 (SO-4/SOP-4),
    Q1 (SOT-23), D1-D3/D9-D16 (SMA polarity), D6-D8 (SOD-123) and J6 (USB-C opening
    must face the board edge). JLCPCB's
-   footprint origins/rotations sometimes differ from KiCad's. Correct them in
-   the preview if needed. This could not be verified without access to
-   JLCPCB's tool.
+   footprint origins/rotations sometimes differ from KiCad's. The CPL already
+   contains the corrections found in the JLCPCB preview (2026-10): U1 and U6
+   270°, Q1 180° (`ROTATION_OFFSET` in `scripts/tools/jlcpcb.py`). Check that
+   the pin-1 dot sits at the silkscreen triangle for every IC; correct a part
+   in the preview if JLCPCB changes its model.
 
 ## Manual assembly (through-hole)
 
