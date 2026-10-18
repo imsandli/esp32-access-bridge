@@ -87,16 +87,16 @@ print (tests T-ME-4 to T-ME-6 in [docs/testing.md](../../docs/testing.md)).
 | Qty | Part |
 |---|---|
 | 10 | M3 brass heat-set inserts for a **Ø4.0 mm** hole, 5.7 mm long, e.g. ruthex RX-M3x5.7 (4 lid, 4 PCB, 2 clamp). Not the 5 mm wide "VORON" M3x5x4 type |
-| 4 | M3 x 8 cylinder-head screws, DIN 912 / ISO 4762 (PCB) |
-| 4 | M3 x 10 cylinder-head screws, DIN 912 / ISO 4762 (lid) |
-| 2 | M3 x 12 cylinder-head screws (clamp bar) |
+| 4 | M3 x 6 cylinder- or pan-head screws (PCB; longer ones hit the floor) |
+| 4 | M3 x 10 cylinder-head screws, DIN 912 / ISO 4762 or slotted DIN 84, head ≤ Ø6 mm (lid) |
+| 2 | M3 x 12 cylinder- or pan-head screws (clamp bar; cables 4-7 mm, use M3 x 16 for 8 mm) |
 | 1 | M16 x 1.5 nylon cable gland, IP54+, clamping range for your cable (e.g. 4-8 mm), with lock nut up to SW 22 (e.g. Delock 60615) |
 
 Not suitable: self-tapping "fan screws" (they don't thread into the inserts).
 | (wall variant) 2 | 4 mm wood screws + plugs, or M4 |
 
 Assembly: press the inserts in with a soldering iron (about 220-240 °C for
-PETG). Mount the PCB with 4 x M3 x 8. Insert the plunger from inside, then
+PETG). Mount the PCB with 4 x M3 x 6. Insert the plunger from inside, then
 close the lid with 4 x M3 x 10.
 
 ### Source and regeneration

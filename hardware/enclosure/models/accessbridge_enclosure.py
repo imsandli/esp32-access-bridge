@@ -79,6 +79,9 @@ J6_X = design.PCB_POS["J6"][0]
 # lid screw bosses (M3 heat-set inserts) in the inner corners, beside the PCB
 BOSS_D = 8.0
 INSERT_D, INSERT_DEPTH = 4.0, 6.0              # typical M3 x 5.7 brass insert
+SCREW_RELIEF_D = 3.2                           # room for the screw tip below an insert
+LID_RELIEF = 5.0                               # lid: M3 x 10 reaches 8.8 mm below the lid
+CLAMP_RELIEF = 1.6                             # clamp posts: M3 x 12, bar on the cable
 # bosses overlap the top/bottom walls by 1 mm (no tangent faces -> manifold mesh)
 BOSSES = [(IN_X0 + BOSS_D / 2 + 0.4, IN_Y0 - BOSS_D / 2 + 1.0), (IN_X1 - BOSS_D / 2 - 0.4, IN_Y0 - BOSS_D / 2 + 1.0),
           (IN_X0 + BOSS_D / 2 + 0.4, IN_Y1 + BOSS_D / 2 - 1.0), (IN_X1 - BOSS_D / 2 - 0.4, IN_Y1 + BOSS_D / 2 - 1.0)]
@@ -123,6 +126,8 @@ def base(mount="din"):
         boss = cq.Workplane("XY").circle(BOSS_D / 2).extrude(TOP_Z - FLOOR).translate((x, y, FLOOR))
         b = b.union(boss)
         b = b.cut(cq.Workplane("XY").circle(INSERT_D / 2).extrude(INSERT_DEPTH).translate((x, y, TOP_Z - INSERT_DEPTH)))
+        b = b.cut(cq.Workplane("XY").circle(SCREW_RELIEF_D / 2).extrude(LID_RELIEF + 0.1)
+                  .translate((x, y, TOP_Z - INSERT_DEPTH - LID_RELIEF)))
     # PCB standoffs with inserts
     for x, y in PCB_HOLES:
         so = cq.Workplane("XY").circle(STANDOFF_D / 2).extrude(STANDOFF).translate((x, y, FLOOR))
@@ -133,6 +138,8 @@ def base(mount="din"):
         post = cq.Workplane("XY").circle(CLAMP_POST_D / 2).extrude(CLAMP_POST_H).translate((x, y, FLOOR))
         b = b.union(post)
         b = b.cut(cq.Workplane("XY").circle(INSERT_D / 2).extrude(INSERT_DEPTH).translate((x, y, FLOOR + CLAMP_POST_H - INSERT_DEPTH)))
+        b = b.cut(cq.Workplane("XY").circle(SCREW_RELIEF_D / 2).extrude(CLAMP_RELIEF + 0.1)
+                  .translate((x, y, FLOOR + CLAMP_POST_H - INSERT_DEPTH - CLAMP_RELIEF)))
 
     # USB-C cut-outs through the top wall + outside recesses
     for x, z, h in ((XIAO_USB_X, XIAO_USB_Z, XIAO_CUT_H), (J6_X, J6_USB_Z, USB_CUT_H)):
