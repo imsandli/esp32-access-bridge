@@ -9,7 +9,7 @@
 
 * JLCPCB: 2-layer FR-4 1.6 mm, 96 x 56 mm, green, HASL. SMT assembly top side,
   "Economic" PCBA.
-* About 13 unique "extended" LCSC parts (AP63205, EL357N, CPC1014N, inductor,
+* About 13 unique "extended" LCSC parts (AP63205, EL357C, CPC1014N, inductor,
   PTCs, SMAJ15A, SMAJ15CA, SMAJ5.0A, JST SH, USB-C, plus others), each with JLCPCB's extended-part
   loading fee per order (about $3 each).
 * Through-hole parts (terminals, sockets) and the XIAO are bought separately

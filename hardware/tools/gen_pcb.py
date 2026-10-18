@@ -311,6 +311,16 @@ def update(netfile, path):
                 fp.SetOrientationDegrees(rot)
                 touched.append(fp)
                 print(f"moved {ref}")
+            # part substitutions: keep value and sourcing fields in sync
+            value = str(find(comp, "value")[1])
+            if fp.GetValue() != value:
+                fp.SetValue(value)
+                print(f"value {ref} -> {value}")
+            props = {str(find(p, "name")[1]): str(find(p, "value")[1]) for p in find_all(comp, "property")
+                     if find(p, "value") is not None}
+            for k in ("LCSC", "MPN", "Manufacturer"):
+                if props.get(k) and fp.HasField(k) and fp.GetFieldByName(k).GetText() != props[k]:
+                    fp.GetFieldByName(k).SetText(props[k])
         for pad in assign_nets(fp, pin_net):
             changed_pads.append(pad)
             print(f"net change {ref}.{pad.GetNumber()} -> {pad.GetNetname()}")

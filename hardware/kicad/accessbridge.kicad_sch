@@ -19708,7 +19708,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "EL357N(C)(TA)-G"
+		(property "Value" "EL357C"
 			(at 124.46 198.12 0)
 			(effects
 				(font
@@ -19737,7 +19737,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "EL357N(C)(TA)-G"
+		(property "MPN" "EL357C"
 			(at 124.46 203.2 0)
 			(effects
 				(font
@@ -19746,7 +19746,7 @@
 				(hide yes)
 			)
 		)
-		(property "Manufacturer" "Everlight"
+		(property "Manufacturer" "UMW"
 			(at 124.46 203.2 0)
 			(effects
 				(font
@@ -19755,7 +19755,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C29981"
+		(property "LCSC" "C725794"
 			(at 124.46 203.2 0)
 			(effects
 				(font
@@ -19945,7 +19945,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "EL357N(C)(TA)-G"
+		(property "Value" "EL357C"
 			(at 124.46 226.06 0)
 			(effects
 				(font
@@ -19974,7 +19974,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "EL357N(C)(TA)-G"
+		(property "MPN" "EL357C"
 			(at 124.46 231.14 0)
 			(effects
 				(font
@@ -19983,7 +19983,7 @@
 				(hide yes)
 			)
 		)
-		(property "Manufacturer" "Everlight"
+		(property "Manufacturer" "UMW"
 			(at 124.46 231.14 0)
 			(effects
 				(font
@@ -19992,7 +19992,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C29981"
+		(property "LCSC" "C725794"
 			(at 124.46 231.14 0)
 			(effects
 				(font
@@ -20182,7 +20182,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "EL357N(C)(TA)-G"
+		(property "Value" "EL357C"
 			(at 124.46 254 0)
 			(effects
 				(font
@@ -20211,7 +20211,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "EL357N(C)(TA)-G"
+		(property "MPN" "EL357C"
 			(at 124.46 259.08 0)
 			(effects
 				(font
@@ -20220,7 +20220,7 @@
 				(hide yes)
 			)
 		)
-		(property "Manufacturer" "Everlight"
+		(property "Manufacturer" "UMW"
 			(at 124.46 259.08 0)
 			(effects
 				(font
@@ -20229,7 +20229,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C29981"
+		(property "LCSC" "C725794"
 			(at 124.46 259.08 0)
 			(effects
 				(font

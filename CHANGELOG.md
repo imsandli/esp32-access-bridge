@@ -17,6 +17,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/).
 - Selectable contact wetting current: solder jumpers JP3-JP5 (open by default)
   add R24-R26 (1 kΩ, 1206) in parallel with the loop resistors, ~3.3 mA to ~6 mA,
   for relays with plain silver contacts.
+- BOM: R8 = C23179; optocouplers U3-U5 = UMW EL357C (C725794, same SOP-4 package and CTR rank as EL357N(C)) because of JLCPCB stock.
 - ERC/DRC clean (incl. parity).
 
 ### Enclosure (new)

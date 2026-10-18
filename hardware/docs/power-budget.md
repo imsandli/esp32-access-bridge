@@ -54,7 +54,7 @@ the 330 mA LINE limit.
 
 With JP3-JP5 bridged, about 2 mA per closed input on USB.
 
-With an EL357N CTR of 100 % or more, the optocouplers still sink more than
+With an EL357C CTR of 200 % or more (rank C), the optocouplers still sink more than
 1 mA against the 0.33 mA the 10 kΩ pull-ups need. Not measured yet: test T-EL-14.
 
 ## Wetting-current jumpers (JP3-JP5)
@@ -62,7 +62,7 @@ With an EL357N CTR of 100 % or more, the optocouplers still sink more than
 | Case | Current | Dissipation |
 |---|---|---|
 | Normal, bridged | (11.4 - 1.2 V) / (2.2k ∥ 1k + 1k) = ~6 mA | R24-R26: 17 mW (1206, 250 mW); field 1 kΩ: 36 mW (0603, 100 mW) |
-| Wiring fault: COM shorted to GND, bridged | ~15 mA | R24-R26: 104 mW (42 %); R10/R14/R18: 47 mW (47 %); EL357N LED 15 mA (max. 50 mA) |
+| Wiring fault: COM shorted to GND, bridged | ~15 mA | R24-R26: 104 mW (42 %); R10/R14/R18: 47 mW (47 %); EL357C LED 15 mA (max. 50 mA) |
 
 ## Voltage drops
 

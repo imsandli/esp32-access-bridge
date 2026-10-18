@@ -42,7 +42,7 @@ P = {
     "LEDG": ("Device:LED", "green", "LED_SMD:LED_0603_1608Metric", "Hubei KENTO", "KT-0603G (emerald)", "C72043", "secondary"),
     "LEDR": ("Device:LED", "red", "LED_SMD:LED_0603_1608Metric", "Hubei KENTO", "KT-0603R", "C2286", "secondary"),
     "BUCK": ("Regulator_Switching:AP63205WU", "AP63205WU-7", "Package_TO_SOT_SMD:TSOT-23-6", "Diodes Inc.", "AP63205WU-7", "C2071056", "confirmed"),
-    "OPTO": ("Isolator:LTV-357T", "EL357N(C)(TA)-G", "Package_SO:SO-4_4.4x3.6mm_P2.54mm", "Everlight", "EL357N(C)(TA)-G", "C29981", "confirmed"),
+    "OPTO": ("Isolator:LTV-357T", "EL357C", "Package_SO:SO-4_4.4x3.6mm_P2.54mm", "UMW", "EL357C", "C725794", "confirmed"),
     "SSR": ("Relay_SolidState:CPC1014N", "CPC1014NTR", "Package_SO:SOP-4_3.8x4.1mm_P2.54mm", "Littelfuse/IXYS", "CPC1014NTR", "C2760365", "confirmed"),
     "NMOS": ("Transistor_FET:AO3400A", "AO3400A", "Package_TO_SOT_SMD:SOT-23", "AOS", "AO3400A", "C20917", "confirmed"),
     "TACT": ("Switch:SW_Push", "PAIR", "Button_Switch_SMD:SW_Push_1P1T_XKB_TS-1187A", "XKB", "TS-1187A-B-A-B", "C318884", "confirmed"),

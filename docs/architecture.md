@@ -88,7 +88,7 @@ See [hardware/README.md](../hardware/README.md) and the
 | Input protection | F1 PTC 200 mA, D1 SMAJ15A, D2 SS14 | Overcurrent, surge clamp, reverse polarity (a reversed input conducts through D1 and trips F1) |
 | 5 V buck | U1 AP63205WU-7, L1 4.7 µH, C1-C5 | 12 V to 5 V, values per the datasheet's typical application |
 | XIAO feed | D3 SS14, C6 | Seeed-compliant external 5 V |
-| Contact inputs x3 | U3-U5 EL357N, R 2.2k/1k loop, D6-D8 reverse diode, D9-D11 SMAJ15CA, 10k pull-up, 1k/10n RC, JP3-JP5 + R24-R26 selectable wetting current (~3.3 / ~6 mA) | Dry-contact detection, active low |
+| Contact inputs x3 | U3-U5 EL357C (UMW, EL357N rank C equivalent), R 2.2k/1k loop, D6-D8 reverse diode, D9-D11 SMAJ15CA, 10k pull-up, 1k/10n RC, JP3-JP5 + R24-R26 selectable wetting current (~3.3 / ~6 mA) | Dry-contact detection, active low |
 | DPS port | JP1/JP2 solder jumpers, U6 CPC1014N PhotoMOS | Either a third input, or an isolated contact *output* that emulates a door reed toward the UA-Hub DPS input (FW-1.1.0, planned) |
 | Open-drain output | Q1 AO3400A, D12 flyback, J4 | 12 V low-side switch, max. 100 mA (Zigbee control planned) |
 | USB-C power (Rev B) | J6 USB4125-GF-A, R22/R23 5.1k CC, F2 500 mA PTC, D14 SMAJ5.0A, D13/D15/D16 SS14 | 5 V input, diode-OR into the XIAO 5V pin and the contact-loop rail `V_LOOP` |
