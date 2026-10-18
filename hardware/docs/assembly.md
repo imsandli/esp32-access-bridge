@@ -29,7 +29,7 @@ From `hardware/manufacturing/bom/accessbridge-manual-assembly.csv`:
 |---|---|---|
 | J1, J2 | Screw terminal 4-pin, 5.08 mm, horizontal entry (Phoenix MKDS 1,5/4-5,08, 1715747, or equivalent) | Wire entry towards the board edge |
 | J4 | Screw terminal 2-pin, 5.08 mm (Phoenix MKDS 1,5/2-5,08, 1715721, or equivalent) | |
-| U2 | 2x female header 1x7, 2.54 mm, about 8.5 mm high | Solder the headers with the XIAO **plugged in**, to keep them aligned |
+| U2 | 2x female header 1x7, 2.54 mm, straight, **7.0 mm high** (e.g. FREI BL 1X07G7 2,54; the enclosure is sized for it) | Solder the headers with the XIAO **plugged in**, to keep them aligned |
 | U2 | Seeed Studio XIAO ESP32C6 (SKU 113991254) | Plugged in, USB-C towards the board edge. Solder the XIAO's own pin headers (male) |
 | J5 | 1x4 pin header (optional) | Not populated by default |
 

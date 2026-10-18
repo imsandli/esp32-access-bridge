@@ -13,8 +13,8 @@ Two options:
 |---|---|---|
 | Base part | `models/accessbridge-enclosure-base-din.stl` | `models/accessbridge-enclosure-base-wall.stl` |
 | Mounting | integrated TS35 clip (fixed hook + spring latch, screwdriver release slot). Sits next to the UA-Hub on the same rail | 2 flanges with 4.5 x 8 mm slots (4 mm wood screws or M4). The box can be mounted with the lid closed |
-| Outside (without clip/flanges) | 118.8 x 81.4 x 31.2 mm | 118.8 x 81.4 x 31.2 mm |
-| Overall | 118.8 x 81.4 x 37.1 mm (clip adds ~6 mm on the back) | 140.8 x 81.4 x 31.2 mm |
+| Outside (without clip/flanges) | 118.8 x 81.4 x 29.7 mm | 118.8 x 81.4 x 29.7 mm |
+| Overall | 118.8 x 81.4 x 35.6 mm (clip adds ~6 mm on the back) | 140.8 x 81.4 x 29.7 mm |
 | Preview | [underside](drawings/enclosure-base-din-underside.png) | [top](drawings/enclosure-base-wall.png), [underside](drawings/enclosure-base-wall-underside.png) |
 
 Shared parts:

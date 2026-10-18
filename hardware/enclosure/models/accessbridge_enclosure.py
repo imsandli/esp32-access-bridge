@@ -38,10 +38,12 @@ WIRING_ROOM = 20.0    # in front of the screw terminals
 LID_CLEARANCE = 4.5   # above the tallest part (XIAO envelope); leaves wall above the XIAO USB-C cut-out
 FIT = 0.3             # lid lip clearance
 
-# Seeed XIAO ESP32C6 on 8.5 mm sockets: envelope above the socket top.
-# The XIAO has no 3D model in the KiCad export; values are conservative:
-# 2.5 mm male-header spacer + ~1.0 mm PCB + 3.3 mm USB-C/shield.
-SOCKET_TOP = 10.1     # above PCB bottom, from the STEP (PinSocket 8.5 mm + 1.6 PCB)
+# Seeed XIAO ESP32C6 on 7.0 mm sockets (FREI BL 1X07G7 2,54, turned contacts):
+# envelope above the socket top. The XIAO has no 3D model in the KiCad export;
+# values are conservative: 2.5 mm male-header spacer + ~1.0 mm PCB + 3.3 mm USB-C/shield.
+# The KiCad STEP shows 8.5 mm PinSocket models; they stay below this envelope.
+SOCKET_H = 7.0
+SOCKET_TOP = 1.6 + SOCKET_H   # above PCB bottom
 XIAO_SPACER = 2.5
 XIAO_PCB = 1.0
 XIAO_TOP_PARTS = 3.3
