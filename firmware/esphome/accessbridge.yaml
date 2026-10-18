@@ -1,0 +1,44 @@
+# AccessBridge Zigbee - ESPHome firmware for AccessBridge C6 (HW-1.0 / Rev A)
+#
+# Zigbee end device (no Wi-Fi, no API, no cloud). Exposes to Zigbee2MQTT:
+#   relay_contact   binary input   UA-Hub relay contact (on = contact closed)
+#   relay_pulses    analog input   number of NEW closures since boot (see docs/security.md)
+#   doorbell        binary input   doorbell coupling-relay contact (IN2)
+#   doorbell_pulses analog input   number of NEW doorbell presses since boot
+#   door            binary input   DPS reed contact (IN3, only with JP1/JP2 = input mode)
+#   fw_version      analog input   firmware version as MAJOR*10000 + MINOR*100 + PATCH
+#
+# Build:  esphome compile accessbridge.yaml   (ESPHome 2026.9.1, see firmware/README.md)
+
+substitutions:
+  name: accessbridge
+  friendly_name: AccessBridge
+  fw_version: "1.0.0"
+  fw_version_code: "10000"
+  # Contact debounce, applied to press AND release. 30-50 ms is a good range
+  # for relay contacts; UA-Hub unlock pulses last seconds.
+  debounce: 40ms
+  # Minimum interval between two counted pulses on the same input. Protects
+  # against relay chatter; HA applies its own cooldown on top.
+  min_pulse_interval_ms: "1500"
+
+esphome:
+  name: ${name}
+  friendly_name: ${friendly_name}
+  min_version: 2026.9.0
+  project:
+    name: accessbridge.zigbee
+    version: ${fw_version}
+
+packages:
+  board: !include packages/board.yaml
+  zigbee: !include packages/zigbee.yaml
+  contact_sensor: !include packages/contact-sensor.yaml
+  doorbell: !include packages/doorbell.yaml
+  # DPS port in INPUT mode (JP1/JP2 bridged 1-2, factory default).
+  # Remove this line if the DPS port is jumpered as SSR output.
+  door_position: !include packages/door-position.yaml
+  outputs: !include packages/outputs.yaml
+
+logger:
+  level: INFO

@@ -1,0 +1,390 @@
+(footprint "XIAO_ESP32C6_Socketed"
+	(version 20241229)
+	(generator "pcbnew")
+	(generator_version "9.0")
+	(layer "F.Cu")
+	(descr "Seeed Studio XIAO ESP32C6 plugged into two 1x7 2.54 mm female sockets (rows 15.24 mm apart, pad geometry per Seeed OPL XIAO-ESP32-C6-DIP). USB-C end at +X, ceramic antenna end at -X with copper keep-out.")
+	(tags "XIAO ESP32C6 socket module")
+	(property "Reference" "REF**"
+		(at 0 -10.6 0)
+		(layer "F.SilkS")
+		(uuid "cc556974-77b0-5609-8088-d4e2a3aa1f80")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "XIAO_ESP32C6"
+		(at 0 10.6 0)
+		(layer "F.Fab")
+		(uuid "a2cbe751-70b9-592c-a383-aaaae6bbe6d5")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr through_hole)
+	(fp_rect
+		(start -10.5 -8.9)
+		(end 10.5 8.9)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.Fab")
+		(uuid "97679934-7c47-57ec-bbdb-ab6c3a2531fc")
+	)
+	(fp_rect
+		(start 10.5 -4.5)
+		(end 12.05 4.5)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.Fab")
+		(uuid "7adfc643-d7f3-5333-bc6b-08cabdf886e1")
+	)
+	(fp_rect
+		(start -10.5 -8.9)
+		(end -5.5 8.9)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.Fab")
+		(uuid "340b0db6-cda2-5e10-a140-766c67ae8b89")
+	)
+	(fp_text user "ANT"
+		(at -8 0 90)
+		(layer "F.Fab")
+		(uuid "e9ddaa83-b5c8-590f-a604-039be67a6173")
+		(effects
+			(font
+				(size 1.0 1.0)
+				(thickness 0.15)
+			)
+		)
+	)
+	(fp_text user "USB-C"
+		(at 9 0 90)
+		(layer "F.Fab")
+		(uuid "1d2a2225-c813-57f9-8d9b-3667cad42c11")
+		(effects
+			(font
+				(size 1.0 1.0)
+				(thickness 0.15)
+			)
+		)
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(uuid "ae4cbd23-6200-5a14-91d3-1cbc0ba0bc1f")
+		(effects
+			(font
+				(size 1.0 1.0)
+				(thickness 0.15)
+			)
+		)
+	)
+	(fp_rect
+		(start -9.0 -8.95)
+		(end 9.0 -6.29)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.SilkS")
+		(uuid "d34c0822-4068-52a1-aa53-fb7a9689e5d6")
+	)
+	(fp_rect
+		(start -9.0 6.29)
+		(end 9.0 8.95)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.SilkS")
+		(uuid "93a07b46-18b3-5786-a369-300d1abf7022")
+	)
+	(fp_line
+		(start -10.6 -9.0)
+		(end 10.6 -9.0)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "f7debbb4-cdd3-5599-9db7-63cf60e8d043")
+	)
+	(fp_line
+		(start -10.6 9.0)
+		(end 10.6 9.0)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "a6dc1d0a-99d9-54ff-85dd-63d61ffe653c")
+	)
+	(fp_line
+		(start -10.6 -9.0)
+		(end -10.6 9.0)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "d8170de1-d5ec-53ad-85bb-df99b93f7a10")
+	)
+	(fp_line
+		(start 10.6 -9.0)
+		(end 10.6 -5.0)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "e0b21178-55da-5e80-a8dd-55e23e5f9eb5")
+	)
+	(fp_line
+		(start 10.6 5.0)
+		(end 10.6 9.0)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "7c7741a8-6f6a-5ef4-9b92-300076df6aa6")
+	)
+	(fp_text user "USB-C"
+		(at 11.6 0 90)
+		(layer "F.SilkS")
+		(uuid "4a4b1d76-65d8-598c-8574-c158729e3dee")
+		(effects
+			(font
+				(size 0.8 0.8)
+				(thickness 0.12)
+			)
+		)
+	)
+	(fp_text user "XIAO ESP32C6"
+		(at 0 0 0)
+		(layer "F.SilkS")
+		(uuid "5b669d28-70ae-5531-9daa-f41b9d1dd03a")
+		(effects
+			(font
+				(size 1.0 1.0)
+				(thickness 0.15)
+			)
+		)
+	)
+	(fp_text user "ANTENNA"
+		(at -8 0 90)
+		(layer "F.SilkS")
+		(uuid "30f3a514-46bf-58a7-bd8d-28d3590a16f9")
+		(effects
+			(font
+				(size 0.8 0.8)
+				(thickness 0.12)
+			)
+		)
+	)
+	(fp_line
+		(start 9.3 -9.5)
+		(end 10.3 -9.5)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "bcc4a072-c1bf-5e7d-8f60-2cf9d5e07d3a")
+	)
+	(fp_rect
+		(start -10.75 -9.15)
+		(end 12.3 9.15)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "3e1fe930-85b5-55ac-9abc-0a9318f46dfc")
+	)
+	(pad "1" thru_hole rect
+		(at 7.62 -7.62)
+		(size 1.7 1.7)
+		(drill 1)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "9aaa2c2f-8c9a-552e-a7f7-98e89af7a97c")
+	)
+	(pad "2" thru_hole circle
+		(at 5.08 -7.62)
+		(size 1.7 1.7)
+		(drill 1)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "393beb2d-36da-5a0b-96a3-5216535147fe")
+	)
+	(pad "3" thru_hole circle
+		(at 2.54 -7.62)
+		(size 1.7 1.7)
+		(drill 1)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "e99d73b6-14a1-55ab-a225-aac46af50dd2")
+	)
+	(pad "4" thru_hole circle
+		(at 0.00 -7.62)
+		(size 1.7 1.7)
+		(drill 1)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "eda27ca2-bac1-5f32-bbe5-a946dfc43521")
+	)
+	(pad "5" thru_hole circle
+		(at -2.54 -7.62)
+		(size 1.7 1.7)
+		(drill 1)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "19c9a5a2-4b91-5c69-8c0c-352e616203bb")
+	)
+	(pad "6" thru_hole circle
+		(at -5.08 -7.62)
+		(size 1.7 1.7)
+		(drill 1)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "3982e58d-1f2d-5076-85d6-0347b19d3297")
+	)
+	(pad "7" thru_hole circle
+		(at -7.62 -7.62)
+		(size 1.7 1.7)
+		(drill 1)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "02564375-f7dc-5859-bf8a-091a6ee40336")
+	)
+	(pad "8" thru_hole circle
+		(at -7.62 7.62)
+		(size 1.7 1.7)
+		(drill 1)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "f2569aca-a9e6-5bf9-ba61-78c49b3b15d1")
+	)
+	(pad "9" thru_hole circle
+		(at -5.08 7.62)
+		(size 1.7 1.7)
+		(drill 1)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "a62c69f3-b192-54f2-9e4c-a1df5d7f805e")
+	)
+	(pad "10" thru_hole circle
+		(at -2.54 7.62)
+		(size 1.7 1.7)
+		(drill 1)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "008b302e-e046-5f82-b0ea-0fb5daaae86d")
+	)
+	(pad "11" thru_hole circle
+		(at 0.00 7.62)
+		(size 1.7 1.7)
+		(drill 1)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "643c041d-da2d-555c-8058-86698c6eb558")
+	)
+	(pad "12" thru_hole circle
+		(at 2.54 7.62)
+		(size 1.7 1.7)
+		(drill 1)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "136f214c-6063-5ee2-b17f-6d31421c98ed")
+	)
+	(pad "13" thru_hole circle
+		(at 5.08 7.62)
+		(size 1.7 1.7)
+		(drill 1)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "7ceeb3a7-f0b9-5d8e-87f6-c6040c7f14d6")
+	)
+	(pad "14" thru_hole circle
+		(at 7.62 7.62)
+		(size 1.7 1.7)
+		(drill 1)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "d14a79b5-e7dd-53c4-997f-db581c97404c")
+	)
+	(zone
+		(net 0)
+		(net_name "")
+		(layers "F.Cu" "B.Cu")
+		(uuid "d3e05455-e9b4-51f5-922c-73a9c8c66d0b")
+		(name "XIAO antenna: no copper between pin rows")
+		(hatch edge 0.5)
+		(connect_pads
+			(clearance 0)
+		)
+		(min_thickness 0.25)
+		(filled_areas_thickness no)
+		(keepout
+			(tracks not_allowed)
+			(vias not_allowed)
+			(pads allowed)
+			(copperpour not_allowed)
+			(footprints allowed)
+		)
+		(placement
+			(enabled no)
+			(sheetname "")
+		)
+		(fill
+			(thermal_gap 0.5)
+			(thermal_bridge_width 0.5)
+		)
+		(polygon
+			(pts
+				(xy -10.5 -6.3) (xy -5.5 -6.3) (xy -5.5 6.3) (xy -10.5 6.3)
+			)
+		)
+	)
+	(model "${KICAD9_3DMODEL_DIR}/Connector_PinSocket_2.54mm.3dshapes/PinSocket_1x07_P2.54mm_Vertical.step"
+		(offset
+			(xyz 7.62 7.62 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 90)
+		)
+	)
+	(model "${KICAD9_3DMODEL_DIR}/Connector_PinSocket_2.54mm.3dshapes/PinSocket_1x07_P2.54mm_Vertical.step"
+		(offset
+			(xyz -7.62 -7.62 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 -90)
+		)
+	)
+)

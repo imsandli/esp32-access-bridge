@@ -1,0 +1,18 @@
+# Outputs present on HW-1.0 but NOT controllable over Zigbee in FW-1.0.0:
+# ESPHome 2026.9.x has no Zigbee switch support on ESP32 (only nRF52).
+# They are held OFF so the hardware is in its safe state:
+#   DPS SSR off  -> UA-Hub DPS input sees "open" = door open (fails loudly)
+#   OUT off      -> load on J4 unpowered
+# Zigbee control is planned for FW-1.1.0 (see firmware/README.md).
+
+switch:
+  - platform: gpio
+    id: dps_ssr
+    internal: true
+    restore_mode: ALWAYS_OFF
+    pin: ${pin_dps_ssr}
+  - platform: gpio
+    id: open_drain_out
+    internal: true
+    restore_mode: ALWAYS_OFF
+    pin: ${pin_out}

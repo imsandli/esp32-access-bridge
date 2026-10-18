@@ -1,0 +1,74 @@
+# UA-Hub relay contact on IN1 (opto U3). GPIO is LOW while the contact is closed.
+#
+# Two entities, on purpose:
+#   relay_contact  the current state (may be re-sent after restart/rejoin)
+#   relay_pulses   counts NEW closures only. Home Assistant unlocks on a +1
+#                  step of this counter, never on the state alone.
+#
+# A closure is counted only if ALL of these hold:
+#   - the previous debounced state was a known "open" (no count for the
+#     initial state after boot, even if the contact is closed at power-up)
+#   - the device is joined to a Zigbee network right now (no stale events
+#     queued while offline and delivered after reconnect)
+#   - at least ${min_pulse_interval_ms} ms since the last counted closure
+# The counter lives in RAM and restarts at 0 after every reboot; HA treats
+# any decrease as a reset, never as a pulse.
+
+globals:
+  - id: relay_pulse_count
+    type: uint32_t
+    restore_value: false
+    initial_value: "0"
+  - id: relay_last_pulse_ms
+    type: uint32_t
+    restore_value: false
+    initial_value: "0"
+
+binary_sensor:
+  - platform: gpio
+    id: relay_contact
+    name: relay_contact
+    report: force
+    pin:
+      number: ${pin_in_relay}
+      mode:
+        input: true
+        pullup: true   # in addition to the external 10k pull-up R12
+      inverted: true   # opto pulls the line low when the contact is closed
+    filters:
+      - delayed_on: ${debounce}
+      - delayed_off: ${debounce}
+    trigger_on_initial_state: false
+    on_state_change:
+      - lambda: |-
+          if (!x.has_value())
+            return;
+          ESP_LOGI("contact", "UA-Hub relay contact %s", *x ? "CLOSED" : "open");
+          if (!*x)
+            return;
+          if (!x_previous.has_value() || *x_previous) {
+            ESP_LOGI("contact", "closure not counted: previous state unknown");
+            return;
+          }
+          if (!id(zb).is_joined()) {
+            ESP_LOGW("contact", "closure not counted: Zigbee not joined");
+            return;
+          }
+          const uint32_t now = millis();
+          if (id(relay_pulse_count) > 0 && now - id(relay_last_pulse_ms) < ${min_pulse_interval_ms}) {
+            ESP_LOGW("contact", "closure not counted: within %u ms of previous pulse", (unsigned) ${min_pulse_interval_ms});
+            return;
+          }
+          id(relay_last_pulse_ms) = now;
+          id(relay_pulse_count) += 1;
+          ESP_LOGI("contact", "relay pulse #%u", (unsigned) id(relay_pulse_count));
+          id(relay_pulses).publish_state(id(relay_pulse_count));
+
+sensor:
+  - platform: template
+    id: relay_pulses
+    name: relay_pulses
+    report: force
+    accuracy_decimals: 0
+    update_interval: never
+    lambda: return id(relay_pulse_count);

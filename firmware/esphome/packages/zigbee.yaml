@@ -1,0 +1,89 @@
+# Zigbee end device (not a router, not a coordinator), mains-like DC supply.
+# Pairing and link state are independent of the contact inputs: inputs keep
+# sampling while the link is down, but pulses are only COUNTED while joined
+# (see contact-sensor.yaml), so nothing is replayed after a reconnect.
+
+zigbee:
+  id: zb
+  router: false
+  power_source: DC_SOURCE
+  on_start:
+    then:
+      - logger.log:
+          level: INFO
+          format: "Zigbee stack started, joining/rejoining network"
+  on_join:
+    then:
+      - logger.log:
+          level: INFO
+          format: "Zigbee %s network"
+          args: ['x ? "joined" : "rejoined"']
+
+binary_sensor:
+  # PAIR button: hold 5-15 s -> leave network + factory reset (re-pairing).
+  # Not exposed over Zigbee.
+  - platform: gpio
+    id: pair_button
+    internal: true
+    pin:
+      number: ${pin_pair_button}
+      mode:
+        input: true
+        pullup: true
+      inverted: true
+    filters:
+      - delayed_on: 50ms
+      - delayed_off: 50ms
+    on_click:
+      - min_length: 5s
+        max_length: 15s
+        then:
+          - logger.log:
+              level: WARN
+              format: "PAIR held: leaving Zigbee network and resetting Zigbee data"
+          - zigbee.factory_reset
+
+sensor:
+  - platform: template
+    id: fw_version_sensor
+    name: fw_version
+    accuracy_decimals: 0
+    update_interval: never
+    lambda: return ${fw_version_code};
+
+output:
+  - platform: gpio
+    id: status_led_out
+    pin: ${pin_status_led}
+
+light:
+  - platform: binary
+    id: status_led
+    internal: true
+    output: status_led_out
+    restore_mode: ALWAYS_OFF
+
+interval:
+  # Status LED: fast blink = not joined, short blip every 5 s = joined.
+  - interval: 250ms
+    then:
+      - lambda: |-
+          static uint32_t tick = 0;
+          tick++;
+          bool on;
+          if (!id(zb).is_joined()) {
+            on = (tick % 2) == 0;
+          } else {
+            on = (tick % 20) == 0;
+          }
+          auto call = on ? id(status_led).turn_on() : id(status_led).turn_off();
+          call.perform();
+
+  # Publish the firmware version once the device is on the network.
+  - interval: 60s
+    then:
+      - if:
+          condition:
+            lambda: return id(zb).is_joined();
+          then:
+            - component.update: fw_version_sensor

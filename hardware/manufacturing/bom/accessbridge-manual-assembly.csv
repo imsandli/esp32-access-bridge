@@ -1,0 +1,5 @@
+Designator,Value,Part,Manufacturer,Qty,Assembly
+J1,PWR+RELAY,"MKDS 1,5/ 4-5,08 (1715747) or 5.08 mm equivalent",Phoenix Contact,1,hand-solder (THT)
+J2,BELL+DPS,"MKDS 1,5/ 4-5,08 (1715747) or 5.08 mm equivalent",Phoenix Contact,1,hand-solder (THT)
+J4,OUT,"MKDS 1,5/ 2-5,08 (1715721) or 5.08 mm equivalent",Phoenix Contact,1,hand-solder (THT)
+U2,XIAO_ESP32C6,113991254 (module) + 2x female header 1x7 2.54 mm,Seeed Studio,1,hand-solder (THT)

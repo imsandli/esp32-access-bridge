@@ -1,0 +1,24 @@
+# DPS port in INPUT mode (JP1/JP2 bridged 1-2): door-position reed contact
+# on IN3 (opto U5). on = door CLOSED (reed contact closed).
+# Use a separate reed (or a dual-contact reed); never parallel this input
+# with the reed that feeds the UA-Hub DPS input.
+
+binary_sensor:
+  - platform: gpio
+    id: door_closed
+    name: door_closed
+    report: force
+    pin:
+      number: ${pin_in_dps}
+      mode:
+        input: true
+        pullup: true
+      inverted: true
+    filters:
+      - delayed_on: ${debounce}
+      - delayed_off: ${debounce}
+    on_state:
+      - logger.log:
+          level: INFO
+          format: "door %s"
+          args: ['x ? "closed" : "OPEN"']

@@ -1,0 +1,52 @@
+# AccessBridge C6 HW-1.0 / Rev A: board definition and the ONLY place where
+# GPIO numbers are defined. Mapping verified against the Seeed XIAO ESP32C6
+# wiki (D-pin -> GPIO) and hardware/kicad/accessbridge.kicad_sch.
+#
+#   XIAO pin  GPIO    Net            Function
+#   D0        GPIO0   IN1_SIG        UA-Hub relay contact (opto U3, active low)
+#   D1        GPIO1   IN2_SIG        doorbell contact     (opto U4, active low)
+#   D2        GPIO2   IN3_SIG        DPS reed contact     (opto U5, active low)
+#   D3        GPIO21  DPS_DRV        DPS SSR U6 LED (high = SSR closed)
+#   D4        GPIO22  SDA            Qwiic J3 (4.7k pull-up)
+#   D5        GPIO23  SCL            Qwiic J3 (4.7k pull-up)
+#   D6        GPIO16  LED_STAT_DRV   red status LED D5 (high = on)
+#   D7        GPIO17  BTN_PAIR       PAIR button SW1 (low = pressed, 10k pull-up)
+#   D8        GPIO19  OUT_DRV        open-drain output Q1 (high = output on)
+#   D9        GPIO20  EXP_GPIO20     J5 expansion header (not populated)
+#   D10       GPIO18  EXP_GPIO18     J5 expansion header (not populated)
+#   -         GPIO3   (on module)    RF switch enable (low = enabled)
+#   -         GPIO14  (on module)    antenna select (low = ceramic, high = U.FL)
+
+substitutions:
+  pin_in_relay: GPIO0
+  pin_in_bell: GPIO1
+  pin_in_dps: GPIO2
+  pin_dps_ssr: GPIO21
+  pin_sda: GPIO22
+  pin_scl: GPIO23
+  pin_status_led: GPIO16
+  pin_pair_button: GPIO17
+  pin_out: GPIO19
+  # false = on-board ceramic antenna, true = external U.FL antenna
+  use_external_antenna: "false"
+
+esp32:
+  board: seeed_xiao_esp32c6
+  variant: esp32c6
+  framework:
+    type: esp-idf
+
+esphome:
+  on_boot:
+    # Before anything else: drive the XIAO RF switch (Seeed wiki: GPIO3 low
+    # enables the switch, GPIO14 selects ceramic (low) or U.FL (high) antenna).
+    priority: 1000
+    then:
+      - lambda: |-
+          gpio_reset_pin(GPIO_NUM_3);
+          gpio_set_direction(GPIO_NUM_3, GPIO_MODE_OUTPUT);
+          gpio_set_level(GPIO_NUM_3, 0);
+          gpio_reset_pin(GPIO_NUM_14);
+          gpio_set_direction(GPIO_NUM_14, GPIO_MODE_OUTPUT);
+          gpio_set_level(GPIO_NUM_14, ${use_external_antenna} ? 1 : 0);
+          ESP_LOGI("board", "AccessBridge C6 HW-1.0 Rev A, antenna: %s", ${use_external_antenna} ? "U.FL" : "ceramic");
