@@ -6,7 +6,7 @@
 "C8,C9,C10","10n","Capacitor_SMD:C_0603_1608Metric","FH","0603B103K500NT","C57112","confirmed","3",""
 "D1","SMAJ15A","Diode_SMD:D_SMA","Littelfuse","SMAJ15A","C148216","confirmed","1",""
 "D2,D3,D12,D13,D15,D16","SS14","Diode_SMD:D_SMA","MDD","SS14","C2480","confirmed","6",""
-"D4","green","LED_SMD:LED_0603_1608Metric","Hubei KENTO","KT-0603G (emerald)","C72043","secondary","1",""
+"D4","yellow-green","LED_SMD:LED_0603_1608Metric","Hubei KENTO","KT-0603YG","C2289","confirmed","1",""
 "D5","red","LED_SMD:LED_0603_1608Metric","Hubei KENTO","KT-0603R","C2286","secondary","1",""
 "D6,D7,D8","1N4148W","Diode_SMD:D_SOD-123","ST(Semtech)","1N4148W","C81598","confirmed","3",""
 "D9,D10,D11","SMAJ15CA","Diode_SMD:D_SMA","MDD","SMAJ15CA","C110044","confirmed","3",""

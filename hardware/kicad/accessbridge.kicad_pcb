@@ -9162,7 +9162,7 @@
 				)
 			)
 		)
-		(property "Value" "green"
+		(property "Value" "yellow-green"
 			(at 0 1.43 180)
 			(layer "F.Fab")
 			(uuid "6b97c1ec-6594-4f59-9bba-7a740da9f357")
@@ -9197,7 +9197,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C72043"
+		(property "LCSC" "C2289"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -9209,7 +9209,7 @@
 				)
 			)
 		)
-		(property "MPN" "KT-0603G (emerald)"
+		(property "MPN" "KT-0603YG"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -19039,7 +19039,7 @@
 			(type default)
 		)
 		(layer "Edge.Cuts")
-		(uuid "e76187b6-acfe-46b7-96e5-3b81736d1977")
+		(uuid "8bd6ce53-9763-40dd-a303-55f4caa22644")
 	)
 	(gr_line
 		(start 40 95)
@@ -19049,7 +19049,7 @@
 			(type default)
 		)
 		(layer "Edge.Cuts")
-		(uuid "44763327-8739-4b95-89c8-84e8c7741754")
+		(uuid "f5872df4-9fd1-4d9d-9a18-483c676cfbf8")
 	)
 	(gr_line
 		(start 41 40)
@@ -19059,7 +19059,7 @@
 			(type default)
 		)
 		(layer "Edge.Cuts")
-		(uuid "e3753d15-2e88-4714-801c-76333f9bc1d8")
+		(uuid "1316a896-6c76-4048-a958-069d6eb4fcc8")
 	)
 	(gr_arc
 		(start 41 96)
@@ -19070,7 +19070,7 @@
 			(type default)
 		)
 		(layer "Edge.Cuts")
-		(uuid "1d15fbc7-1eec-4449-a415-1584eb27f216")
+		(uuid "04f4e3ba-60fb-4a6f-b950-639b0c5efd11")
 	)
 	(gr_arc
 		(start 135 40)
@@ -19081,7 +19081,7 @@
 			(type default)
 		)
 		(layer "Edge.Cuts")
-		(uuid "8ddc91ec-a5e9-4da4-ad12-8da0e31a4fc1")
+		(uuid "f042248b-2f46-43b1-b738-c66b12850d2a")
 	)
 	(gr_line
 		(start 135 96)
@@ -19091,7 +19091,7 @@
 			(type default)
 		)
 		(layer "Edge.Cuts")
-		(uuid "389b36c8-af02-41d1-be1c-a40263b075cc")
+		(uuid "b7270351-84f7-40fb-b70c-2a71b0d95251")
 	)
 	(gr_line
 		(start 136 41)
@@ -19101,7 +19101,7 @@
 			(type default)
 		)
 		(layer "Edge.Cuts")
-		(uuid "c163e733-e9f7-4130-839a-c8f9c2de0245")
+		(uuid "b58c2312-35fb-44cf-9322-3d634be2848d")
 	)
 	(gr_arc
 		(start 136 95)
@@ -19112,12 +19112,12 @@
 			(type default)
 		)
 		(layer "Edge.Cuts")
-		(uuid "5a8a6027-bed2-444c-8755-e168f66600fd")
+		(uuid "5992dcaa-79b1-4335-bef0-973c67d641db")
 	)
 	(gr_text "PWR"
 		(at 80 56.3 0)
 		(layer "F.SilkS")
-		(uuid "1eb4bb81-bb8e-4cbc-a7bf-aeb4a4c05fa9")
+		(uuid "c5483568-b768-4649-88f4-469483eeba81")
 		(effects
 			(font
 				(size 0.8 0.8)
@@ -19128,7 +19128,7 @@
 	(gr_text "QWIIC 3V3"
 		(at 83 48.2 0)
 		(layer "F.SilkS")
-		(uuid "e84dd650-3bd0-4d9a-a7a8-657eb22d4bc3")
+		(uuid "7cd068e9-a83c-424c-990c-5dec79183177")
 		(effects
 			(font
 				(size 0.8 0.8)
@@ -19139,7 +19139,7 @@
 	(gr_text "DPS-A"
 		(at 83.16 84.2 0)
 		(layer "F.SilkS")
-		(uuid "0e7c7576-4721-416c-8049-410b0346ae56")
+		(uuid "06ad9592-09c8-4a38-90d4-9d3145e3d89a")
 		(effects
 			(font
 				(size 0.8 0.8)
@@ -19150,7 +19150,7 @@
 	(gr_text "STAT"
 		(at 87.5 59.9 0)
 		(layer "F.SilkS")
-		(uuid "4aed8fbd-99ec-4f19-96c8-5ae364e8a1a9")
+		(uuid "7a6d2c7f-537f-4b1f-8d61-92c1da36d41c")
 		(effects
 			(font
 				(size 0.8 0.8)
@@ -19161,7 +19161,7 @@
 	(gr_text "DPS-B"
 		(at 88.24 84.2 0)
 		(layer "F.SilkS")
-		(uuid "aba0ff17-ea71-43b1-be9b-b8de810369d4")
+		(uuid "43b50966-fae4-404d-bda5-d5736b406c76")
 		(effects
 			(font
 				(size 0.8 0.8)
@@ -19172,7 +19172,7 @@
 	(gr_text "OUT+"
 		(at 107 84.2 0)
 		(layer "F.SilkS")
-		(uuid "393a9fb6-ac94-47cc-9fa0-f55ac7d2519c")
+		(uuid "20c17642-2abe-4c5e-a3cc-faaa9b1cc927")
 		(effects
 			(font
 				(size 0.8 0.8)
@@ -19183,7 +19183,7 @@
 	(gr_text "NO COPPER - ANTENNA"
 		(at 108 68.5 0)
 		(layer "F.SilkS")
-		(uuid "e3f08764-5990-4337-9f1e-b26986f2e799")
+		(uuid "ee60efe3-da4a-4207-ab15-aad147c7b2ab")
 		(effects
 			(font
 				(size 0.8 0.8)
@@ -19194,7 +19194,7 @@
 	(gr_text "OUT-"
 		(at 112.08 84.2 0)
 		(layer "F.SilkS")
-		(uuid "71e68fbe-37d7-4fbb-b546-d17d586e908c")
+		(uuid "2f45d79e-7c74-4eb9-bc0b-2cafc14369be")
 		(effects
 			(font
 				(size 0.8 0.8)
@@ -19205,7 +19205,7 @@
 	(gr_text "PAIR"
 		(at 120.5 62.9 0)
 		(layer "F.SilkS")
-		(uuid "ff6b61ef-bc38-4bea-8b97-8864178c35b5")
+		(uuid "45455d1e-d021-4a80-ba63-63adfa866cdf")
 		(effects
 			(font
 				(size 0.8 0.8)
@@ -19216,7 +19216,7 @@
 	(gr_text "USB 5V"
 		(at 130.5 49.6 90)
 		(layer "F.SilkS")
-		(uuid "ea23c7cb-4f5c-42e7-8d91-0d4061792fb9")
+		(uuid "342c0037-c0c9-40b9-9e61-38af6285667e")
 		(effects
 			(font
 				(size 0.8 0.8)
@@ -19227,7 +19227,7 @@
 	(gr_text "+12V"
 		(at 51 84 0)
 		(layer "F.SilkS")
-		(uuid "47740a24-1174-46ec-8344-1f7162ef2489")
+		(uuid "d00eb799-b67b-4d68-8d4d-60ec1e0b6b4c")
 		(effects
 			(font
 				(size 0.9 0.9)
@@ -19238,7 +19238,7 @@
 	(gr_text "POWER"
 		(at 53.54 82.4 0)
 		(layer "F.SilkS")
-		(uuid "bf8b9663-a380-438d-90b4-70226ebde542")
+		(uuid "aaf85c62-8678-4973-8ec2-61e79f1cf7aa")
 		(effects
 			(font
 				(size 0.9 0.9)
@@ -19249,7 +19249,7 @@
 	(gr_text "GND"
 		(at 56.08 84 0)
 		(layer "F.SilkS")
-		(uuid "02910013-40a8-4e53-b1f9-5cf82d81763c")
+		(uuid "f5b28ec6-6067-4b9f-87dc-f8dc23ab29e4")
 		(effects
 			(font
 				(size 0.9 0.9)
@@ -19260,7 +19260,7 @@
 	(gr_text "COM"
 		(at 61.16 84 0)
 		(layer "F.SilkS")
-		(uuid "cbb2658f-37bb-4b22-aa44-aabf4d3d9e9e")
+		(uuid "922c00f5-a3a4-4e27-aab1-f2099543213b")
 		(effects
 			(font
 				(size 0.9 0.9)
@@ -19271,7 +19271,7 @@
 	(gr_text "RELAY"
 		(at 63.7 82.4 0)
 		(layer "F.SilkS")
-		(uuid "592fed75-c8ba-4663-9fcd-2f5187d453c9")
+		(uuid "2abb70e4-6aa3-4d73-8642-0a6466d4c424")
 		(effects
 			(font
 				(size 0.9 0.9)
@@ -19282,7 +19282,7 @@
 	(gr_text "NO"
 		(at 66.239999 84 0)
 		(layer "F.SilkS")
-		(uuid "0f1028db-a975-41e8-bcb2-020bb612ce10")
+		(uuid "b867950a-a7e1-47d2-afef-0e5d6a4423e0")
 		(effects
 			(font
 				(size 0.9 0.9)
@@ -19293,7 +19293,7 @@
 	(gr_text "COM"
 		(at 73 84 0)
 		(layer "F.SilkS")
-		(uuid "9041c3fb-367d-469b-9774-249e261c4cf1")
+		(uuid "88b545fa-f22f-4b37-913c-7a498a841686")
 		(effects
 			(font
 				(size 0.9 0.9)
@@ -19304,7 +19304,7 @@
 	(gr_text "BELL"
 		(at 75.539999 82.4 0)
 		(layer "F.SilkS")
-		(uuid "6f9c9b55-cc79-4f83-8dee-6df41c3be7e5")
+		(uuid "ec6313e2-7816-45d8-a631-f9c823f84ba2")
 		(effects
 			(font
 				(size 0.9 0.9)
@@ -19315,7 +19315,7 @@
 	(gr_text "NO"
 		(at 78.08 84 0)
 		(layer "F.SilkS")
-		(uuid "f27862cc-f60c-49d0-ae1b-7da0e6524c63")
+		(uuid "8a9e28f4-1701-46bf-8eaa-2a01b44b8371")
 		(effects
 			(font
 				(size 0.9 0.9)
@@ -19326,7 +19326,7 @@
 	(gr_text "AccessBridge C6  HW-1.1  Rev B"
 		(at 64 42.2 0)
 		(layer "F.SilkS")
-		(uuid "d0c51dc1-4dae-41a3-a729-d38c23deaebc")
+		(uuid "7db06cc6-fa3a-4faa-a20d-99eb411ac29c")
 		(effects
 			(font
 				(size 1 1)
@@ -19337,7 +19337,7 @@
 	(gr_text "J1: 1 +12V  2 GND  3 RELAY COM  4 RELAY NO"
 		(at 83 73 0)
 		(layer "B.SilkS")
-		(uuid "9fe8fe77-ab9c-48a3-9e79-018886861616")
+		(uuid "64bb7675-f192-4250-a945-e67ded1d0104")
 		(effects
 			(font
 				(size 1 1)
@@ -19349,7 +19349,7 @@
 	(gr_text "J2: 1 BELL COM  2 BELL NO  3 DPS A  4 DPS B"
 		(at 83 75.5 0)
 		(layer "B.SilkS")
-		(uuid "6185c0fb-15a9-463b-9f9a-9d336995ebae")
+		(uuid "cb1f15aa-3459-4111-8b30-3b6ef7790721")
 		(effects
 			(font
 				(size 1 1)
@@ -19361,7 +19361,7 @@
 	(gr_text "J4: 1 OUT +12V  2 OUT SW (low side)"
 		(at 83 78 0)
 		(layer "B.SilkS")
-		(uuid "f4584766-8887-4af0-ad2d-f0f62ff27791")
+		(uuid "d2175839-0b6b-4a5b-99f7-0ab99c3dabc4")
 		(effects
 			(font
 				(size 1 1)
@@ -19373,7 +19373,7 @@
 	(gr_text "Supply: UA-Hub LINE 12V or USB-C 5V - no mains"
 		(at 83 80.5 0)
 		(layer "B.SilkS")
-		(uuid "737b90b7-61d1-4cca-9741-52456f3b73d2")
+		(uuid "aa02407c-324c-41ad-a60e-2e92bb833164")
 		(effects
 			(font
 				(size 1 1)
@@ -19385,7 +19385,7 @@
 	(gr_text "JP1/JP2: 1-2 = DPS IN, 2-3 = DPS OUT (SSR)"
 		(at 83 83 0)
 		(layer "B.SilkS")
-		(uuid "8a17eb76-ea24-475d-87ae-a4eb69ae1c35")
+		(uuid "f9c2b229-6031-4ecc-9ea6-785bc6d181da")
 		(effects
 			(font
 				(size 1 1)
@@ -19397,7 +19397,7 @@
 	(gr_text "J6 USB-C: 5V power only (no data)"
 		(at 83 85.5 0)
 		(layer "B.SilkS")
-		(uuid "6c8d293e-8df3-4177-91ac-9d0eec034ec9")
+		(uuid "c2350fef-594b-4066-a5dc-a6c4c10ef968")
 		(effects
 			(font
 				(size 1 1)
@@ -19409,7 +19409,7 @@
 	(gr_text "AccessBridge C6 HW-1.1 Rev B - CERN-OHL-S-2.0"
 		(at 83 70 0)
 		(layer "B.SilkS")
-		(uuid "99cec19a-461a-4915-af5d-96b2095fa100")
+		(uuid "a16d9a8d-ff73-4ea0-a74c-e0af01a549ad")
 		(effects
 			(font
 				(size 1.2 1.2)
@@ -19421,7 +19421,7 @@
 	(gr_text "Board 96 x 56 mm, 1.6 mm FR-4, 2 layers, 1 mm corner radius"
 		(at 40 108 0)
 		(layer "Dwgs.User")
-		(uuid "edf26263-906a-4976-8573-923fca7764f7")
+		(uuid "f557f3f9-c6ee-4d8a-9725-36316bca168d")
 		(effects
 			(font
 				(size 1 1)
@@ -19433,7 +19433,7 @@
 	(gr_text "4x M3 mounting holes, 3.2 mm drill, 4 mm from board edges"
 		(at 40 110 0)
 		(layer "Dwgs.User")
-		(uuid "80ea61f7-8a40-472c-ac96-bbc50080d374")
+		(uuid "a3772851-e77f-4495-8d10-4c7f307edf1d")
 		(effects
 			(font
 				(size 1 1)
@@ -19445,7 +19445,7 @@
 	(gr_text "USB-C (XIAO) faces the top edge: connector face ~1.45 mm inside the edge, centred on X=68 mm"
 		(at 40 112 0)
 		(layer "Dwgs.User")
-		(uuid "1dfc1fa7-a8b1-4484-8d00-3a9a51696b03")
+		(uuid "9f621c0d-1cab-4d73-8d84-706a679df3cd")
 		(effects
 			(font
 				(size 1 1)
@@ -19457,7 +19457,7 @@
 	(gr_text "Wire entry of J1/J2/J4 faces the bottom edge (5.08 mm pitch screw terminals)"
 		(at 40 114 0)
 		(layer "Dwgs.User")
-		(uuid "6dd9e904-39f2-45aa-b5e0-9836a4dd1742")
+		(uuid "73ff26dd-1f7c-4a23-a660-91d6f12cf6a6")
 		(effects
 			(font
 				(size 1 1)
@@ -19469,7 +19469,7 @@
 	(gr_text "Hatched area below the XIAO: no copper (antenna keep-out)"
 		(at 40 116 0)
 		(layer "Dwgs.User")
-		(uuid "a8fc116c-4103-451e-b7bc-e32988dcdce7")
+		(uuid "e237fba7-cf43-4389-8572-0768fcf72b7e")
 		(effects
 			(font
 				(size 1 1)
@@ -19481,42 +19481,7 @@
 	(dimension
 		(type aligned)
 		(layer "Dwgs.User")
-		(uuid "0aa53829-b181-4b6d-a579-9264ff022f9c")
-		(pts
-			(xy 40 40) (xy 136 40)
-		)
-		(height -6)
-		(format
-			(prefix "")
-			(suffix "")
-			(units 2)
-			(units_format 1)
-			(precision 2)
-		)
-		(style
-			(thickness 0.1)
-			(arrow_length 1.27)
-			(text_position_mode 0)
-			(arrow_direction outward)
-			(extension_height 0.58642)
-			(extension_offset 0)
-			(keep_text_aligned yes)
-		)
-		(gr_text "96.00 mm"
-			(at 88 32.875 0)
-			(layer "Dwgs.User")
-			(uuid "0aa53829-b181-4b6d-a579-9264ff022f9c")
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-	)
-	(dimension
-		(type aligned)
-		(layer "Dwgs.User")
-		(uuid "5d18b6d3-97c2-4da3-8517-d09f2c7a5257")
+		(uuid "3756898a-9f29-4706-ab16-dd27f6fc9a0c")
 		(pts
 			(xy 132 44) (xy 132 92)
 		)
@@ -19540,7 +19505,7 @@
 		(gr_text "48.00 mm"
 			(at 138.875 68 90)
 			(layer "Dwgs.User")
-			(uuid "5d18b6d3-97c2-4da3-8517-d09f2c7a5257")
+			(uuid "3756898a-9f29-4706-ab16-dd27f6fc9a0c")
 			(effects
 				(font
 					(size 1 1)
@@ -19551,11 +19516,11 @@
 	(dimension
 		(type aligned)
 		(layer "Dwgs.User")
-		(uuid "60465e17-4caf-4941-8b71-fb33633f8a0e")
+		(uuid "a104c8cd-08d5-43b8-ac75-2b17115a976f")
 		(pts
-			(xy 44 92) (xy 132 92)
+			(xy 40 40) (xy 136 40)
 		)
-		(height 8)
+		(height -6)
 		(format
 			(prefix "")
 			(suffix "")
@@ -19572,10 +19537,10 @@
 			(extension_offset 0)
 			(keep_text_aligned yes)
 		)
-		(gr_text "88.00 mm"
-			(at 88 98.875 0)
+		(gr_text "96.00 mm"
+			(at 88 32.875 0)
 			(layer "Dwgs.User")
-			(uuid "60465e17-4caf-4941-8b71-fb33633f8a0e")
+			(uuid "a104c8cd-08d5-43b8-ac75-2b17115a976f")
 			(effects
 				(font
 					(size 1 1)
@@ -19586,42 +19551,7 @@
 	(dimension
 		(type aligned)
 		(layer "Dwgs.User")
-		(uuid "8bafca8e-f2e9-4240-a6b9-959975eb93af")
-		(pts
-			(xy 40 40) (xy 108 40)
-		)
-		(height -12)
-		(format
-			(prefix "")
-			(suffix "")
-			(units 2)
-			(units_format 1)
-			(precision 2)
-		)
-		(style
-			(thickness 0.1)
-			(arrow_length 1.27)
-			(text_position_mode 0)
-			(arrow_direction outward)
-			(extension_height 0.58642)
-			(extension_offset 0)
-			(keep_text_aligned yes)
-		)
-		(gr_text "68.00 mm"
-			(at 74 26.875 0)
-			(layer "Dwgs.User")
-			(uuid "8bafca8e-f2e9-4240-a6b9-959975eb93af")
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-	)
-	(dimension
-		(type aligned)
-		(layer "Dwgs.User")
-		(uuid "c4449083-bb02-48ee-9003-a99677c10805")
+		(uuid "d82ea098-6aaa-4218-85ab-81ea82207cf8")
 		(pts
 			(xy 40 40) (xy 40 96)
 		)
@@ -19645,7 +19575,77 @@
 		(gr_text "56.00 mm"
 			(at 32.875 68 90)
 			(layer "Dwgs.User")
-			(uuid "c4449083-bb02-48ee-9003-a99677c10805")
+			(uuid "d82ea098-6aaa-4218-85ab-81ea82207cf8")
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+	)
+	(dimension
+		(type aligned)
+		(layer "Dwgs.User")
+		(uuid "d9aa3f57-342d-4499-b0e8-f35a1c2a4247")
+		(pts
+			(xy 44 92) (xy 132 92)
+		)
+		(height 8)
+		(format
+			(prefix "")
+			(suffix "")
+			(units 2)
+			(units_format 1)
+			(precision 2)
+		)
+		(style
+			(thickness 0.1)
+			(arrow_length 1.27)
+			(text_position_mode 0)
+			(arrow_direction outward)
+			(extension_height 0.58642)
+			(extension_offset 0)
+			(keep_text_aligned yes)
+		)
+		(gr_text "88.00 mm"
+			(at 88 98.875 0)
+			(layer "Dwgs.User")
+			(uuid "d9aa3f57-342d-4499-b0e8-f35a1c2a4247")
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+	)
+	(dimension
+		(type aligned)
+		(layer "Dwgs.User")
+		(uuid "f177df74-c249-4f8b-afad-ae5530a841ac")
+		(pts
+			(xy 40 40) (xy 108 40)
+		)
+		(height -12)
+		(format
+			(prefix "")
+			(suffix "")
+			(units 2)
+			(units_format 1)
+			(precision 2)
+		)
+		(style
+			(thickness 0.1)
+			(arrow_length 1.27)
+			(text_position_mode 0)
+			(arrow_direction outward)
+			(extension_height 0.58642)
+			(extension_offset 0)
+			(keep_text_aligned yes)
+		)
+		(gr_text "68.00 mm"
+			(at 74 26.875 0)
+			(layer "Dwgs.User")
+			(uuid "f177df74-c249-4f8b-afad-ae5530a841ac")
 			(effects
 				(font
 					(size 1 1)
@@ -23969,7 +23969,7 @@
 		(net 41)
 		(net_name "GND")
 		(layer "F.Cu")
-		(uuid "9e68493f-b399-4ddd-8d7d-34f0b4e5872d")
+		(uuid "4e02ebf7-3452-4464-af6c-15815bfe56aa")
 		(name "GND top")
 		(hatch edge 0.5)
 		(connect_pads
@@ -26090,7 +26090,7 @@
 		(net 0)
 		(net_name "")
 		(layers "F.Cu" "B.Cu")
-		(uuid "01d186a0-633d-4b95-a204-fb824ba725a7")
+		(uuid "a07c8b82-8f27-4f42-a555-036743d34770")
 		(name "Antenna end: no pour")
 		(hatch edge 0.5)
 		(connect_pads
@@ -26156,7 +26156,7 @@
 		(net 41)
 		(net_name "GND")
 		(layer "B.Cu")
-		(uuid "70cef52f-d2b5-40a5-8919-d932615b4f1c")
+		(uuid "719c88c8-4261-47d6-ad1f-9e471b0102cd")
 		(name "GND bottom")
 		(hatch edge 0.5)
 		(connect_pads

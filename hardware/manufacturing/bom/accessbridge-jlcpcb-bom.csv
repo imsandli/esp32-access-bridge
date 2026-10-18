@@ -6,7 +6,7 @@ Comment,Designator,Footprint,LCSC Part #,Note
 10n (0603B103K500NT),"C8,C9,C10",C_0603_1608Metric,C57112,
 SMAJ15A (SMAJ15A),D1,D_SMA,C148216,
 SS14 (SS14),"D2,D3,D12,D13,D15,D16",D_SMA,C2480,
-green (KT-0603G (emerald)),D4,LED_0603_1608Metric,C72043,C-number from secondary source: verify
+yellow-green (KT-0603YG),D4,LED_0603_1608Metric,C2289,
 red (KT-0603R),D5,LED_0603_1608Metric,C2286,C-number from secondary source: verify
 1N4148W (1N4148W),"D6,D7,D8",D_SOD-123,C81598,
 SMAJ15CA (SMAJ15CA),"D9,D10,D11",D_SMA,C110044,

@@ -192,7 +192,7 @@ Zigbee control is planned for FW-1.1.0; FW-1.0.0 keeps the output off.
 
 1. Wire J1 **without** the XIAO plugged in. Apply PoE to the UA-Hub (or, for
    a bench test, plug a USB-C charger into J6).
-2. Check the PWR LED (green). Measure about 5 V on the XIAO socket pin 14
+2. Check the PWR LED (yellow-green). Measure about 5 V on the XIAO socket pin 14
    (5V) against pin 13 (GND), and confirm the voltage is behind D3 (about
    4.6-4.8 V).
 3. Remove power, plug in the flashed XIAO (USB-C towards the board edge),

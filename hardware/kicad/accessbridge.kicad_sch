@@ -10015,7 +10015,7 @@
 				)
 			)
 		)
-		(property "Value" "green"
+		(property "Value" "yellow-green"
 			(at 299.72 66.04 90)
 			(effects
 				(font
@@ -10041,7 +10041,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "KT-0603G (emerald)"
+		(property "MPN" "KT-0603YG"
 			(at 297.18 66.04 0)
 			(effects
 				(font
@@ -10059,7 +10059,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C72043"
+		(property "LCSC" "C2289"
 			(at 297.18 66.04 0)
 			(effects
 				(font
@@ -10068,7 +10068,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC_Status" "secondary"
+		(property "LCSC_Status" "confirmed"
 			(at 297.18 66.04 0)
 			(effects
 				(font

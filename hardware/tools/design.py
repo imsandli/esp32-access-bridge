@@ -39,7 +39,7 @@ P = {
     "TVS15C": ("Diode:SMAJ15CA", "SMAJ15CA", "Diode_SMD:D_SMA", "MDD", "SMAJ15CA", "C110044", "confirmed"),
     "SS14": ("Device:D_Schottky", "SS14", "Diode_SMD:D_SMA", "MDD", "SS14", "C2480", "confirmed"),
     "1N4148W": ("Diode:1N4148W", "1N4148W", "Diode_SMD:D_SOD-123", "ST(Semtech)", "1N4148W", "C81598", "confirmed"),
-    "LEDG": ("Device:LED", "green", "LED_SMD:LED_0603_1608Metric", "Hubei KENTO", "KT-0603G (emerald)", "C72043", "secondary"),
+    "LEDG": ("Device:LED", "yellow-green", "LED_SMD:LED_0603_1608Metric", "Hubei KENTO", "KT-0603YG", "C2289", "confirmed"),
     "LEDR": ("Device:LED", "red", "LED_SMD:LED_0603_1608Metric", "Hubei KENTO", "KT-0603R", "C2286", "secondary"),
     "BUCK": ("Regulator_Switching:AP63205WU", "AP63205WU-7", "Package_TO_SOT_SMD:TSOT-23-6", "Diodes Inc.", "AP63205WU-7", "C2071056", "confirmed"),
     "OPTO": ("Isolator:LTV-357T", "EL357C", "Package_SO:SO-4_4.4x3.6mm_P2.54mm", "UMW", "EL357C", "C725794", "confirmed"),
